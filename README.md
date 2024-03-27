@@ -52,7 +52,7 @@ Para iniciar sesión, necesitarás credenciales válidas. Algunos usuarios váli
 
 Para restablecer una contraseña, sigue uno de estos métodos:
 
-1. **A través de la página web**: 
+1. **A través de la interfaz de usuario*: 
    - Visita la página web de VDGApp.
    - Haz clic en "Olvidé mi contraseña".
    - Ingresa tu correo electrónico.
