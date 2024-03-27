@@ -28,8 +28,10 @@
    ```bash
    npm audit fix --force
    ```
-
-6. Para iniciar el servidor de desarrollo, ejecuta el siguiente comando:
+   
+6. Cambiar la URL del backend: Si el backend está desplegado en una ubicación diferente, asegúrate de cambiar la URL dentro del archivo `environments/environment.ts`.
+  
+7. Para iniciar el servidor de desarrollo, ejecuta el siguiente comando:
 
    ```bash
    ionic serve
