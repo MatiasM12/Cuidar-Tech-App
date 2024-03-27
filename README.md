@@ -20,6 +20,7 @@
 
    ```bash
    npm install --force
+   npm install -g @angular/cli 
    ```
 
 5. Corrige cualquier problema de seguridad con:
