@@ -1,0 +1,27 @@
+<app-menu></app-menu>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-menu-button slot="start" color="primary" menu="first"></ion-menu-button>
+    <ion-title>
+      VdgApp
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-button expand="full" shape="round" (click)="localizarVictimario()">
+    <ion-icon slot="start" name="locate"></ion-icon>Localizar victimario
+  </ion-button>
+
+  <ion-button expand="full" shape="round" routerLink="/gestionar-contactos">
+    <ion-icon slot="start" name="contacts"></ion-icon>Gestionar contactos
+  </ion-button>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button color="danger" (click)="presentAlertConfirm()">
+      <ion-icon name="alert"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

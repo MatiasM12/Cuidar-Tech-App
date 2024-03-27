@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home-damnificada"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Restricciones perimetrales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list *ngFor="let restriccion of restricciones" (click)=seleccionarRestriccion(restriccion)>
+    <ion-item>
+      <ion-icon name="eye"></ion-icon>
+      {{restriccion.victimario.apellido+", "+restriccion.victimario.nombre}}
+    </ion-item>
+  </ion-list>
+
+  <ion-text *ngIf="!hayRestricciones">
+    <h3>No hay un agresor infringiendo.</h3>
+  </ion-text>
+
+</ion-content>

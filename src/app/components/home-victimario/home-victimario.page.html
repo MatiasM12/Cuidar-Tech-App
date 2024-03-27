@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>VdgApp</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-button expand="full" shape="round" routerLink='/pruebas-de-vida'>
+    <ion-icon slot="start" name="camera"></ion-icon>Pruebas de vida
+  </ion-button>
+
+  <ion-button expand="full" shape="round" routerLink='/notificaciones'>
+    <ion-icon slot="start" name="notifications"></ion-icon>Notificaciones
+  </ion-button>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+      <ion-button expand="full" shape="round" (click)="cerrarSesion()">
+          <ion-icon slot="start" name="close"></ion-icon>Cerrar sesión
+      </ion-button>
+  </ion-toolbar>
+</ion-footer>
