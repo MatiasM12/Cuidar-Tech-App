@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'vdgApp',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http'
   }
 };
 
