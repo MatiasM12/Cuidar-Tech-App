@@ -29,12 +29,12 @@ export class GestionarContactosPage implements OnInit {
     this.getContactos();
   }
 
-  getContactos(){
-    this.showLoader("Cargando contactos...");
-    this.storage.get('persona').then((email) => {
+  async getContactos(){
+    await this.showLoader("Cargando contactos...");
+    this.storage.get('persona').then(async (email) => {
       this.contactoService.getContacto(email)
-      .subscribe(res => {
-        this.loadingController.dismiss();
+      .subscribe(async res => {
+        await this.loadingController.dismiss();
         this.contactos = res as Contacto[];
       });
     });
@@ -43,8 +43,8 @@ export class GestionarContactosPage implements OnInit {
   eliminarContacto(contacto: Contacto){
     this.showLoader("Eliminando contacto...");
     this.contactoService.deleteContacto(contacto.idContacto)
-    .subscribe(res => {
-      this.loadingController.dismiss();
+    .subscribe(async res => {
+      await this.loadingController.dismiss();
       this.getContactos();
     })
   }

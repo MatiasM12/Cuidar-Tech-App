@@ -1,18 +1,17 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button routerLink="/home-victimario"></ion-back-button>
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Pruebas de vida</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
-  <ion-list *ngFor="let pruebaDeVida of pruebasDeVida" (click)=responderPruebaDeVida(pruebaDeVida)>
-    <ion-item>
-      <ion-icon name="camera"></ion-icon>
-      {{pruebaDeVida.descripcion}}
+<ion-content color="light">
+  <ion-list [inset]="true" *ngFor="let pruebaDeVida of pruebasDeVida" (click)=responderPruebaDeVida(pruebaDeVida)>
+    <ion-item [button]="true">
+      <ion-icon name="camera" color="primary" slot="start" size="large"></ion-icon>
+      <ion-label>{{pruebaDeVida.descripcion}}</ion-label>
     </ion-item>
   </ion-list>
 

@@ -27,7 +27,7 @@ export class NotificacionesPage implements OnInit {
 
   getNotificaciones() {
     //    this.showLoader();
-    let emailUsuario = 'agresor2@agresor2.com';
+    let emailUsuario = localStorage.getItem("emailUsuario");
     if(emailUsuario !== null)
     this.notificacionService.getNoificaciones(emailUsuario)
       .subscribe(res => {

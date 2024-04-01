@@ -33,7 +33,7 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
   }
 
   ngOnInit() {
-    //this.watchGeolocation();
+    this.watchGeolocation();
   }
 
   getGeolocation() {
@@ -55,6 +55,8 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
       if ('coords' in data && 'timestamp' in data) {
         this.lat = data.coords.latitude;
         this.lon = data.coords.longitude;
+        console.log(data.coords);
+        
       } else {
         console.error('El objeto data no tiene la estructura esperada para Geoposition:', data);
       }    
@@ -78,8 +80,8 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
 
     this.storage.get('persona').then((email) => {
       this.botonAntipanicoService.alertar(botonAntipanico, email)
-        .subscribe(async res => {
-          await this.loadingController.dismiss();
+        .subscribe( res => {
+           this.loadingController.dismiss();
           this.presentToast('Alerta enviada a contactos correctamente.');
         });
     });

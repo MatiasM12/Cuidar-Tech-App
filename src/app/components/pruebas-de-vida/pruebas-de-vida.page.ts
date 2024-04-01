@@ -44,7 +44,6 @@ export class PruebasDeVidaPage implements OnInit {
   }
 
   responderPruebaDeVida(pruebaDeVida: PruebaDeVida) {
-    console.log("HOLA"); 
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camara.DestinationType.DATA_URL,

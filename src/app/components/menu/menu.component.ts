@@ -21,8 +21,18 @@ export class MenuComponent implements OnInit {
     },
     {
       titulo:'Gestionar contactos',
-      icon: 'contacts',
+      icon: 'person',
       url: '/gestionar-contactos'
+    },
+    {
+      titulo:'Pruebas de vida',
+      icon: 'camera',
+      url: '/pruebas-de-vida'
+    },
+    {
+      titulo:'Ver Comisarias',
+      icon: 'shield',
+      url: '/localizacion-comisarias'
     },
     {
       titulo:'Notificaciones',

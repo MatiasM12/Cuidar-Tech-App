@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home-damnificada"></ion-back-button>
     </ion-buttons>
@@ -7,11 +7,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <ion-list *ngFor="let restriccion of restricciones" (click)=seleccionarRestriccion(restriccion)>
-    <ion-item>
-      <ion-icon name="eye"></ion-icon>
-      {{restriccion.victimario.apellido+", "+restriccion.victimario.nombre}}
+<ion-content color="light">
+  <ion-list [inset]="true"  *ngFor="let restriccion of restricciones" (click)=seleccionarRestriccion(restriccion)>
+    <ion-item [button]="true">
+      <ion-icon name="eye" color="primary" slot="start" size="large"></ion-icon>
+      <ion-label>{{restriccion.victimario.apellido+", "+ restriccion.victimario.nombre}}</ion-label>
     </ion-item>
   </ion-list>
 

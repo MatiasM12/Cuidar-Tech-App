@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button routerLink="/home-damnificada"></ion-back-button>
     </ion-buttons>
@@ -7,10 +7,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
-  <ion-list >
-    <ion-item *ngFor="let contacto of contactos" (click)="presentAlertConfirm(contacto)">
+<ion-content color="light">
+  <ion-list [inset]="true" *ngFor="let contacto of contactos" (click)="presentAlertConfirm(contacto)">
+    <ion-item [button]="true" >
+      <ion-icon name="person" color="primary" slot="start" size="large"></ion-icon>
       <ion-label>{{contacto.apellido}}, {{contacto.nombre}}</ion-label>
     </ion-item>
   </ion-list>
