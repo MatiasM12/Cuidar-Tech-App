@@ -33,9 +33,8 @@
    
 6. Cambiar la URL del backend: Si el backend está desplegado en una ubicación diferente, asegúrate de cambiar la URL dentro del archivo `environments/environment.ts`. En nuestro caso tenemos la ip y puertos locales pero esto depende de tu pc o si tener el servidor deplegado en algun hosting.
 
-      ![image](https://github.com/MatiasM12/VdgApp/assets/86579814/8ffe8dc4-5abb-4c5b-adea-86e8fc719b98)
+      ![image](https://github.com/MatiasM12/VdgApp/assets/86579814/1a098cac-2b36-4c1d-bef3-3a1f503998b2)
 
-  
 8. Para iniciar el servidor de desarrollo, ejecuta el siguiente comando:
 
    ```bash
