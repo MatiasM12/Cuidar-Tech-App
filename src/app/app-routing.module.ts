@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'localizacion-comisarias-page',
     loadChildren: () => import('./components/localizacion-comisarias-page/localizacion-comisarias-page.module').then( m => m.LocalizacionComisariasPagePageModule)
   },
+  {
+    path: 'info-comisaria',
+    loadChildren: () => import('./components/informacion-comisaria/informacion-comisaria.module').then( m => m.InformacionComisariaModule)
+  },
 
 
 ];

@@ -35,7 +35,6 @@ import { HomePageModule } from './home/home.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule,
-    IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
@@ -49,19 +48,20 @@ import { HomePageModule } from './home/home.module';
     HomeVictimarioPageModule,
     PruebasDeVidaPageModule,
     NotificacionesPageModule,
-    HomePageModule
+    HomePageModule,
+    IonicModule.forRoot()
   ],
   providers: [
     Platform,
     ComunicacionService,
     UbicacionService,
-    NotificacionService,
+    NotificacionService, 
     BackgroundMode,
     LocalNotifications,
     StatusBar,
     SplashScreen,
-    Geolocation,
     Camera,
+    Geolocation,
     ForegroundService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

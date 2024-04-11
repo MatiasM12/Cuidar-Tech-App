@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Geolocation } from '@capacitor/geolocation';
+import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -10,7 +11,7 @@ import { UbicacionService } from './services/ubicacion.service';
 import { NotificacionService } from './services/notificacion.service';
 import { Notificacion } from './models/notificacion';
 import { ForegroundService } from '@ionic-native/foreground-service/ngx';
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 
 @Component({
@@ -33,16 +34,17 @@ export class AppComponent {
     private http: HttpClient,
     private storage: Storage
   ) {
+    this.email = "victima1@victima1.com"
     this.initializeApp();
   }
 
 
   private latitud: number | undefined; // O el tipo de dato que corresponda
   private longitud: number | undefined; // O el tipo de dato que corresponda
-  
+
   private contador = 0;
-  readonly URL_API = 'http://localhost:9090/'+'Ubicacion';
-  private email = "damnificada2@damnificada.com"
+  readonly URL_API = 'http://192.168.0.18:9090/' + 'Ubicacion';
+  private email = localStorage.getItem("emailUsuario")
 
 
 
@@ -50,7 +52,7 @@ export class AppComponent {
   async initializeApp() {
     await this.storage.create();
     this.platform.ready().then(() => {
-      
+
       this.foregroundService.start('GPS Running', 'Background Service');
       //setInterval(() => this.notificar(), 20000);
       this.statusBar.styleDefault();
@@ -58,92 +60,100 @@ export class AppComponent {
       this.splashScreen.hide();
 
       this.backgroundMode.on('activate').subscribe(() => {
-        console.log("Background activado");
-        this.backgroundMode.disableWebViewOptimizations();
-        let watch = this.geolocation.watchPosition({ enableHighAccuracy: true });
-        watch.subscribe((data) => {
-          if ('coords' in data && 'timestamp' in data) {
-            this.latitud = data.coords.latitude;
-            this.longitud = data.coords.longitude;
-          } else {
-            console.error('El objeto data no tiene la estructura esperada para Geoposition:', data);
-          }          
-          
-        });
-        //setInterval(() => this.hagoElPost(), 10000);
-        setInterval(() => console.log("Hora "+(new Date()).toUTCString()), 10000);
+      console.log("Background activado");
+      this.backgroundMode.disableWebViewOptimizations();
+      Geolocation.getCurrentPosition().then((resp) => {
+        this.latitud = resp.coords.latitude;
+        this.longitud = resp.coords.longitude;
+        console.log("lat:" + this.latitud + "lon: " + this.longitud);
 
+      }).catch((error) => {
+        console.log('Error getting location', error);
       });
 
+      setInterval(() => this.hagoElPost(), 10000);
+      setInterval(() => console.log("Hora " + (new Date()).toUTCString()), 10000);
+    });
 
       this.backgroundMode.disableBatteryOptimizations();
       this.backgroundMode.overrideBackButton();
       this.backgroundMode.excludeFromTaskList();
-      //setInterval(() => this.notificarDos(), 10000);
+      setInterval(() => this.notificarDos(), 10000);
       this.backgroundMode.enable();
 
     });
   }
 
-  hagoElPost(){
+  async hagoElPost() {
     console.log("Interval de 10 segs");
-    const loginInfo: { latitud?: number, longitud?: number } = {}; // Tipo explícito para loginInfo
-    loginInfo["latitud"] = this.latitud;
-    loginInfo["longitud"] = this.longitud; 
-    console.log("HAGO EL POST lat: "+this.latitud+"    lon: "+this.longitud+"   email: "+this.email);
-    console.log(this.http.post(this.URL_API +"/postUbi/"+this.email, loginInfo));
-    return this.http.post(this.URL_API +"/postUbi/"+this.email, loginInfo);
+    Geolocation.getCurrentPosition({maximumAge: 1000, timeout: 5000, enableHighAccuracy: true }).then((resp) => { 
+      this.latitud = resp.coords.latitude;
+      this.longitud = resp.coords.longitude;
+      console.log("lat:" +this.latitud+"lon: " +this.latitud);
+
+     }).catch((error) => {
+       console.log('Error getting location', error);
+       if (error.code === 1) {
+        console.log('Permiso denegado para acceder a la ubicación.');
+      } else if (error.code === 2) {
+        console.log('La ubicación no está disponible.');
+      } else if (error.code === 3) {
+        console.log('Tiempo de espera agotado al obtener la ubicación.');
+      } else {
+        console.log('Error desconocido al obtener la ubicación.');
+      }
+     });
+    const loginInfo = {
+      latitud: this.latitud,
+      longitud: this.longitud
+    };
+    console.log("HAGO EL POST lat: "+this.latitud+"    lon: "+this.longitud+"   email2: "+this.email);
+    console.log(this.email);
+    return await this.http.post(this.URL_API +"/postUbi/"+this.email, loginInfo);
   }
-  
+
 
 
   //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
   notificarDos() {
     console.log("INTERVAL DEL BACKGROUND CORRIENDO");
-    if (this.comunicacion.emailUsuario != "") {
-      console.log("LLAMO A ENVIAR UBICACION");
-      this.enviarUbicacion();
-      
-    }
+    console.log("LLAMO A ENVIAR UBICACION");
+    this.enviarUbicacion();
+
+
   }
 
   //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
   notificar() {
     console.log(this.comunicacion.emailUsuario);
-    if (this.comunicacion.emailUsuario != "") {
-      this.enviarUbicacion();
-      this.tengoNotificaciones();
-    }
+
+    this.enviarUbicacion();
+    this.tengoNotificaciones();
+
   }
 
-  enviarUbicacion() {
+  async enviarUbicacion() {
     console.log("AHORA ENVIO LA UBICACION");
-    if (this.latitud !== undefined && this.longitud !== undefined  ) {
-      this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario, this.latitud, this.longitud)
-        .subscribe(res => {
-          console.log("Ya me devolvió el RES");
-          console.log(res);
-        });
-    } else {
-      console.error('La latitud o la longitud son indefinidas.');
-    }
-  
-  
-    
-    
-    
-    
-    /*
-    this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
+    // if (this.latitud !== undefined && this.longitud !== undefined  ) {
+    //   await this.ubicacionService.postUbicacion(this.email, this.latitud, this.longitud)
+    //     .subscribe(res => {
+    //       console.log("Ya me devolvió el RES");
+    //       console.log(res);
+    //     });
+    // } else {
+    //   console.error('La latitud o la longitud son indefinidas.');
+    // }
+
+    Geolocation.getCurrentPosition().then((geoposition) => {
       console.log("Ya tengo el position actual");
-      this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
+      this.ubicacionService.postUbicacion(this.email!,
         geoposition.coords.latitude, geoposition.coords.longitude)
         .subscribe(res => {
           console.log("Ya me devolvio el RES");
           console.log(res);
         });
     });
-    */
+
   }
 
   tengoNotificaciones() {
@@ -168,5 +178,7 @@ export class AppComponent {
       },
     });
   }
-  
+
+
+
 }

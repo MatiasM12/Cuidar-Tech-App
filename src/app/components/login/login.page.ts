@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
             if(localStorage.getItem('emailUsuario') != ''){
               const emailUsuario = localStorage.getItem('emailUsuario');
               if (emailUsuario !== null) 
-                this.comunicacion.enviarEmailUsuario(emailUsuario);
+                await this.comunicacion.enviarEmailUsuario(emailUsuario);
               if(localStorage.getItem('rolUsuario')=="DAMNIFICADA"){
                 this.router.navigate(["/home-damnificada"]);
               }
@@ -59,14 +59,14 @@ export class LoginPage implements OnInit {
             await localStorage.setItem('emailUsuario', mail);
             await localStorage.setItem('rolUsuario', "VICTIMARIO")
             await this.storage.set('usuario', this.usuarioStorage);
-            this.comunicacion.enviarEmailUsuario(mail);
+            await this.comunicacion.enviarEmailUsuario(mail);
           }
           else if (rolUsuario == "DAMNIFICADA") {
             this.router.navigate(["/home-damnificada"]);
             await localStorage.setItem('emailUsuario', mail);
             await localStorage.setItem('rolUsuario', "DAMNIFICADA")
             await this.storage.set('usuario', this.usuarioStorage);
-            this.comunicacion.enviarEmailUsuario(mail);
+            await this.comunicacion.enviarEmailUsuario(mail);
           }
           else
             this.loginInvalido();

@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button ></ion-back-button>
+    </ion-buttons>
+    <ion-title>Informacion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="card-content">
+    <ion-card-header class="card-header">
+      <img src="./../../../assets/comisaria-de-policia.png" class="header-image" alt="Custom Image">
+      {{ comisaria.nombre }}
+    </ion-card-header>
+      <div class="info-item">
+        <strong>Ciudad:</strong> {{ comisaria.ciudad }}
+      </div>
+      <div class="info-item">
+        <strong>Dirección:</strong> {{ comisaria.direccion }}
+      </div>
+      <div class="info-item">
+        <strong>Teléfono:</strong> {{ comisaria.telefono }}
+      </div>
+      <div class="info-item">
+        <strong>Partido:</strong> {{ comisaria.partido }}
+      </div>
+      <div class="info-item">
+        <strong>Comisaría a Cargo:</strong> {{ comisaria.comisariaACargo }}
+      </div>
+
+    <ion-button expand="block" (click)="irAGoogleMaps()" class="google-maps-btn"><ion-icon slot="start" name="location"></ion-icon> Ir a Google Maps</ion-button>
+
+    </ion-card>
+</ion-content>
+

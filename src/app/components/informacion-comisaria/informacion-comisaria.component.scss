@@ -1,0 +1,35 @@
+.card-header {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .header-image {
+    width: 150px; 
+    height: 150px; 
+    margin-top: -10px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .card-content {
+    padding: 10px;
+  }
+  
+  .info-item {
+    margin-bottom: 8px;
+  }
+  
+  .info-item strong {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .google-maps-btn {
+    margin-top: 30px;
+  }
+  
