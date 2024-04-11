@@ -25,4 +25,8 @@ export class UsuarioService {
     return this.http.post(this.URL_API + "/loginApp", loginInfo);
   }
 
+  recuperarContrasena(usuario: Usuario){
+    return this.http.put(this.URL_API+"/recuperarContrasena", usuario);
+  }
+
 }

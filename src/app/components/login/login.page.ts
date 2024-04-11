@@ -19,6 +19,8 @@ export class LoginPage implements OnInit {
 
   //Back button
   subscribe: any;
+  mail = "";
+  rol = "";
 
   usuarioStorage: Usuario = new Usuario;
 
@@ -42,11 +44,13 @@ export class LoginPage implements OnInit {
             await this.storage.create();
    }
 
-  async ingresar(usuarioForm: NgForm) {
+   async ingresar(usuarioForm: NgForm) {
     if (usuarioForm.valid) {
       var mail = usuarioForm.value.email;
       var contrasena = sha256.sha256(usuarioForm.value.password);
       await this.showLoader();
+      console.log("entre");
+      
       this.usuarioService.login(mail, contrasena)
         .subscribe(async rolUsuario => {
           await this.loadingController.dismiss();
@@ -92,8 +96,36 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  async setUsuario(email: string) {
-    await this.storage.set('persona', email);
+  async cambioDeContrasenaExitoso() {
+    const toast = await this.toastController.create({
+      header: "Cambio exitoso",
+      message: 'Se envio una nueva contraseña a tu correo.',
+      duration: 4000,
+      color: "success"
+    });
+    toast.present();
   }
 
+  async setUsuario(email: string) {
+    await this.storage.set('persona', email);
+  } 
+
+  recuperarContrasena() {
+    console.log("recupera la contraseña");
+    
+    if (this.mail != "") {
+      let usuario = new Usuario;
+      usuario.email = this.mail;
+      usuario.rolDeUsuario = 'ADMINISTRATIVO';
+      if (confirm("Una nueva contraseña se enviará al email ingresado. ¿Desea continuar?")) {
+        this.usuarioService.recuperarContrasena(usuario)
+          .subscribe(res => {
+            console.log("Contraseña recuuperad con exito"+res);
+            this.cambioDeContrasenaExitoso();
+          });
+      }
+    }else{
+      alert("Ingrese un email")
+    }
+  }
 }

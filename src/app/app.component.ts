@@ -3,7 +3,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import { Geoposition } from '@ionic-native/geolocation/ngx';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { StatusBar } from '@capacitor/status-bar';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 import { ComunicacionService } from './services/comunicacion/comunicacion.service';
@@ -23,7 +23,6 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private backgroundMode: BackgroundMode,
     private localNotifications: LocalNotifications,
     private comunicacion: ComunicacionService,
@@ -34,6 +33,7 @@ export class AppComponent {
     private http: HttpClient,
     private storage: Storage
   ) {
+    StatusBar.setBackgroundColor({color:'#3498DB'});
     this.email = "victima1@victima1.com"
     this.initializeApp();
   }
@@ -55,8 +55,7 @@ export class AppComponent {
 
       this.foregroundService.start('GPS Running', 'Background Service');
       //setInterval(() => this.notificar(), 20000);
-      this.statusBar.styleDefault();
-      this.statusBar.backgroundColorByHexString('#ffffff');
+      StatusBar.setBackgroundColor({color:'#3880ff'});
       this.splashScreen.hide();
 
       this.backgroundMode.on('activate').subscribe(() => {
