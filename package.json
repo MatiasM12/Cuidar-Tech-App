@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^17.0.2",
     "@angular/platform-browser-dynamic": "^17.0.2",
     "@angular/router": "^17.0.2",
+    "@capacitor-community/background-geolocation": "^1.2.17",
     "@capacitor-community/http": "^1.4.1",
     "@capacitor/android": "^5.7.4",
     "@capacitor/app": "5.0.7",
@@ -28,8 +29,11 @@
     "@capacitor/geolocation": "^5.0.7",
     "@capacitor/haptics": "5.0.7",
     "@capacitor/keyboard": "5.0.8",
+    "@capacitor/local-notifications": "^6.0.0",
     "@capacitor/status-bar": "5.0.7",
+    "@capawesome/capacitor-background-task": "^5.0.0",
     "@ionic-native/android-permissions": "^5.36.0",
+    "@ionic-native/background-geolocation": "^5.36.0",
     "@ionic-native/background-mode": "^5.36.0",
     "@ionic-native/camera": "^5.36.0",
     "@ionic-native/core": "^5.36.0",
@@ -43,6 +47,7 @@
     "@ionic/storage-angular": "^4.0.0",
     "cordova-android": "^10.1.0",
     "cordova-plugin-android-permissions": "^1.1.5",
+    "cordova-plugin-background-fetch": "^7.2.3",
     "cordova-plugin-camera": "^7.0.0",
     "cordova-plugin-device": "^2.1.0",
     "ionicons": "^7.0.0",
@@ -78,7 +83,8 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.2.2"
+    "typescript": "~5.2.2",
+    "webpack-cli": "^5.1.4"
   },
   "description": "An Ionic project"
 }

@@ -72,6 +72,11 @@ export class LocalizacionComisariasPagePage implements OnInit {
       view: this.vistaMapa
     });
 
+    // Escuchar el evento de cambio de resolución (zoom)
+    this.map.getView().on('change:resolution', () => {
+       this.mostarNombreComisaria();
+    });
+
     setTimeout(() => {
       this.map.updateSize();
     }, 500);
@@ -109,12 +114,24 @@ export class LocalizacionComisariasPagePage implements OnInit {
         markerComisaria = new Feature({
           geometry: new Point(fromLonLat([lat, lon]))
         });
-        markerComisaria.setStyle(new Style({
-          image: new Icon({
-            src: 'assets/markerComisaria.png',
-            size: [60, 60] // Tamaño de la imagen del icono
-          })
-        }));
+
+        if(comisaria.tipo == "MUJER"){
+          markerComisaria.setStyle(new Style({
+            image: new Icon({
+              src: 'assets/markerComisariaDeLaMujer.png',
+              size: [60, 60] // Tamaño de la imagen del icono
+            })
+          }));
+        }else{
+          markerComisaria.setStyle(new Style({
+            image: new Icon({
+              src: 'assets/markerComisaria.png',
+              size: [60, 60] // Tamaño de la imagen del icono
+            })
+          }));
+        }
+       
+
 
         // Agregar información debajo del marcador
         var content = `<div style="font-size: 12px; text-align: center;"><strong style="color: blue;"></strong> <span style="font-weight: bold;">${comisaria.nombre}</span></div>` +
@@ -157,9 +174,22 @@ export class LocalizacionComisariasPagePage implements OnInit {
         this.vistaMapa.setCenter(fromLonLat([longitud, latitud]));
         this.map.addLayer(this.capaUbicaciones);
       });
-
+      this.mostarNombreComisaria();
     });
   }
 
+  mostarNombreComisaria() {
+    const zoomLevel = this.vistaMapa.getZoom();
+
+    // Ocultar o mostrar el contenido adicional según el nivel de zoom
+    const overlays = this.map.getOverlays().getArray();
+    overlays.forEach((overlay) => {
+      const element = overlay.getElement();
+      if (element && zoomLevel) {
+        const shouldShowContent = zoomLevel >= 14; // Ajusta el nivel de zoom adecuado aquí
+        element.style.display = shouldShowContent ? 'block' : 'none';
+      }
+    });
+  }
 
 }

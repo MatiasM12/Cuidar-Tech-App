@@ -4,8 +4,8 @@ import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-informacion-comisaria',
-  templateUrl: './informacion-comisaria.component.html',
-  styleUrls: ['./informacion-comisaria.component.scss'],
+  templateUrl: './informacion-comisaria.page.html',
+  styleUrls: ['./informacion-comisaria.page.scss'],
 })
 export class InformacionComisariaComponent  implements OnInit {
   comisaria: Comisaria= new Comisaria();
@@ -33,4 +33,11 @@ export class InformacionComisariaComponent  implements OnInit {
     window.open(googleMapsUrl);
   }
 
+  obtenerIconoComisaria(tipo: string): string {
+    if (tipo === 'MUJER') {
+      return './../../../assets/comisaria-de-la-mujer.png';
+    } else {
+      return './../../../assets/comisaria-de-policia.png';
+    }
+  }
 }

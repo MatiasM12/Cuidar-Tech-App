@@ -5,7 +5,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@capacitor/status-bar';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
+import { ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 import { ComunicacionService } from './services/comunicacion/comunicacion.service';
 import { UbicacionService } from './services/ubicacion.service';
 import { NotificacionService } from './services/notificacion.service';
@@ -13,6 +13,9 @@ import { Notificacion } from './models/notificacion';
 import { ForegroundService } from '@ionic-native/foreground-service/ngx';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
+import { CapacitorHttp } from '@capacitor/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { Http } from '@capacitor-community/http';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +27,6 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private backgroundMode: BackgroundMode,
-    private localNotifications: LocalNotifications,
     private comunicacion: ComunicacionService,
     private ubicacionService: UbicacionService,
     private notificacionService: NotificacionService,
@@ -33,7 +35,7 @@ export class AppComponent {
     private http: HttpClient,
     private storage: Storage
   ) {
-    StatusBar.setBackgroundColor({color:'#3498DB'});
+    StatusBar.setBackgroundColor({ color: '#3498DB' });
     this.email = "victima1@victima1.com"
     this.initializeApp();
   }
@@ -47,32 +49,30 @@ export class AppComponent {
   private email = localStorage.getItem("emailUsuario")
 
 
-
-
   async initializeApp() {
     await this.storage.create();
     this.platform.ready().then(() => {
 
       this.foregroundService.start('GPS Running', 'Background Service');
-      //setInterval(() => this.notificar(), 20000);
-      StatusBar.setBackgroundColor({color:'#3880ff'});
+      setInterval(() => this.notificar(), 20000);
+      StatusBar.setBackgroundColor({ color: '#3880ff' });
       this.splashScreen.hide();
 
       this.backgroundMode.on('activate').subscribe(() => {
-      console.log("Background activado");
-      this.backgroundMode.disableWebViewOptimizations();
-      Geolocation.getCurrentPosition().then((resp) => {
-        this.latitud = resp.coords.latitude;
-        this.longitud = resp.coords.longitude;
-        console.log("lat:" + this.latitud + "lon: " + this.longitud);
+        console.log("Background activado");
+        this.backgroundMode.disableWebViewOptimizations();
+        Geolocation.getCurrentPosition().then((resp) => {
+          this.latitud = resp.coords.latitude;
+          this.longitud = resp.coords.longitude;
+          console.log("lat:" + this.latitud + "lon: " + this.longitud);
 
-      }).catch((error) => {
-        console.log('Error getting location', error);
+        }).catch((error) => {
+          console.log('Error getting location', error);
+        });
+
+        setInterval(async () => await this.hagoElPost(), 10000);
+        setInterval(() => console.log("Hora " + (new Date()).toUTCString()), 10000);
       });
-
-      setInterval(() => this.hagoElPost(), 10000);
-      setInterval(() => console.log("Hora " + (new Date()).toUTCString()), 10000);
-    });
 
       this.backgroundMode.disableBatteryOptimizations();
       this.backgroundMode.overrideBackButton();
@@ -81,36 +81,62 @@ export class AppComponent {
       this.backgroundMode.enable();
 
     });
+
+    this.platform.pause.subscribe(async () => {
+      console.log("estoy en Segundo planooooooooooooooooooooooooooooooooooooooooooooooo");
+      this.foregroundService.start('GPS Running', 'Background Service');
+      setInterval(() => this.notificar(), 20000);
+      StatusBar.setBackgroundColor({ color: '#3880ff' });
+      this.splashScreen.hide();
+
+
+
+      setInterval(async () => await this.hagoElPost(), 10000);
+      setInterval(() => console.log("Hora " + (new Date()).toUTCString()), 10000);
+
+    });
   }
 
   async hagoElPost() {
     console.log("Interval de 10 segs");
-    Geolocation.getCurrentPosition({maximumAge: 1000, timeout: 5000, enableHighAccuracy: true }).then((resp) => { 
-      this.latitud = resp.coords.latitude;
-      this.longitud = resp.coords.longitude;
-      console.log("lat:" +this.latitud+"lon: " +this.latitud);
+    let location = await Geolocation.getCurrentPosition();
 
-     }).catch((error) => {
-       console.log('Error getting location', error);
-       if (error.code === 1) {
-        console.log('Permiso denegado para acceder a la ubicación.');
-      } else if (error.code === 2) {
-        console.log('La ubicación no está disponible.');
-      } else if (error.code === 3) {
-        console.log('Tiempo de espera agotado al obtener la ubicación.');
-      } else {
-        console.log('Error desconocido al obtener la ubicación.');
-      }
-     });
-    const loginInfo = {
+    this.latitud = location.coords.latitude;
+    this.longitud = location.coords.longitude;
+    
+    const data = {
       latitud: this.latitud,
       longitud: this.longitud
     };
-    console.log("HAGO EL POST lat: "+this.latitud+"    lon: "+this.longitud+"   email2: "+this.email);
-    console.log(this.email);
-    return await this.http.post(this.URL_API +"/postUbi/"+this.email, loginInfo);
-  }
+    const emailUsuario = 'victima1@victima1.com'; 
 
+    // Configuración de la solicitud HTTP
+    const options = {
+      url: `${this.URL_API}/postUbi/${emailUsuario}`, 
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      data: JSON.stringify(data) 
+    };
+
+    console.log("HAGO EL POST CON HTTP NATIVO 2 --------------------- lat: " + this.latitud + "    lon: " + this.longitud + "   email2: " + emailUsuario);
+    console.log(emailUsuario);
+
+    // Realiza la solicitud HTTP usando Http
+    await Http.request({
+      method: "POST",
+      url: `${this.URL_API}/postUbi/${emailUsuario}`, 
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      data: {
+        location: JSON.stringify(data),
+      }
+    });
+    this.mostrarNotificacion();
+
+
+  }
 
 
   //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
@@ -118,16 +144,17 @@ export class AppComponent {
     console.log("INTERVAL DEL BACKGROUND CORRIENDO");
     console.log("LLAMO A ENVIAR UBICACION");
     this.enviarUbicacion();
+    this.mostrarNotificacion();
 
 
   }
 
   //NOSE SI LAS LLAMADAS VAN ADENTRO DEL SCHEDULE
-  notificar() {
+  async notificar() {
     console.log(this.comunicacion.emailUsuario);
 
     this.enviarUbicacion();
-    this.tengoNotificaciones();
+    this.mostrarNotificacion();
 
   }
 
@@ -143,41 +170,72 @@ export class AppComponent {
     //   console.error('La latitud o la longitud son indefinidas.');
     // }
 
-    Geolocation.getCurrentPosition().then((geoposition) => {
-      console.log("Ya tengo el position actual");
-      this.ubicacionService.postUbicacion(this.email!,
-        geoposition.coords.latitude, geoposition.coords.longitude)
-        .subscribe(res => {
-          console.log("Ya me devolvio el RES");
-          console.log(res);
-        });
-    });
+    let location = await Geolocation.getCurrentPosition();
 
-  }
+    this.latitud = location.coords.latitude;
+    this.longitud = location.coords.longitude;
+    
+    const data = {
+      latitud: this.latitud,
+      longitud: this.longitud
+    };
+    const emailUsuario = 'victima1@victima1.com'; 
 
-  tengoNotificaciones() {
-    this.notificacionService.getNotificacionesNoVistas(this.comunicacion.emailUsuario)
-      .subscribe(res => {
-        console.log(res);
-        var notificacionesNoVistas = res as Notificacion[];
-        var i: number;
-        for (i = 0; i < notificacionesNoVistas.length; i++) {
-          this.mostrarNotificacion(notificacionesNoVistas[i].descripcion);
-        }
+    // Configuración de la solicitud HTTP
+    const options = {
+      url: `${this.URL_API}/postUbi/${emailUsuario}`, 
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      data: JSON.stringify(data) 
+    };
+
+    console.log("HAGO EL POST CON HTTP NATIVO 1 --------------------- lat: " + this.latitud + "    lon: " + this.longitud + "   email2: " + emailUsuario);
+    console.log(emailUsuario);
+
+
+    // Realiza la solicitud HTTP usando Http
+      await Http.request({
+          method: "POST",
+          url: `${this.URL_API}/postUbi/${emailUsuario}`, 
+          headers: {
+            'Content-Type': 'application/json' 
+          },
+          data: {
+            location: JSON.stringify(data),
+          }
       });
   }
 
-  mostrarNotificacion(mensaje: string) {
-    this.localNotifications.schedule({
-      title: 'Hola ' + this.comunicacion.emailUsuario,
-      text: mensaje,
-      trigger: {
-        in: 1,
-        unit: ELocalNotificationTriggerUnit.SECOND,
-      },
-    });
+  // tengoNotificaciones() {
+  //   this.notificacionService.getNotificacionesNoVistas(this.comunicacion.emailUsuario)
+  //     .subscribe(res => {
+  //       console.log(res);
+  //       var notificacionesNoVistas = res as Notificacion[];
+  //       var i: number;
+  //       for (i = 0; i < notificacionesNoVistas.length; i++) {
+  //         this.mostrarNotificacion(notificacionesNoVistas[i].descripcion);
+  //       }
+  //     });
+  // }
+
+  mostrarNotificacion() {
+    // LocalNotifications.schedule({
+    //   notifications: [
+    //     {
+    //       title: "Ubicacion en segundo plano",
+    //       body: "La aplicacion esta usando la ubicacion en segundo plano",
+    //       ongoing: true,
+    //       id: 1
+    //     }
+    //   ]
+    // });
   }
 
 
 
 }
+
+
+
+

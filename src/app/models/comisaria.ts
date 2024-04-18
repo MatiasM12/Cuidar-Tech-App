@@ -2,7 +2,7 @@
 export class Comisaria {
 
     constructor(idComisaria=0 ,nombre="", ciudad="", direccion="", telefono="", partido="",
-    comisariaACargo="",coordenadaX="",coordenadaY=""){
+    comisariaACargo="",coordenadaX="",coordenadaY="",tipo=""){
         this.idComisaria = idComisaria;
         this.nombre = nombre;
         this.ciudad = ciudad;
@@ -12,6 +12,7 @@ export class Comisaria {
         this.comisariaACargo = comisariaACargo;
         this.coordenadaX = coordenadaX;
         this.coordenadaY = coordenadaY;
+        this.tipo = tipo;
     }
 
     idComisaria: number;
@@ -23,4 +24,5 @@ export class Comisaria {
     comisariaACargo: string;
     coordenadaX: string;
     coordenadaY: string;
+    tipo: string;
 }

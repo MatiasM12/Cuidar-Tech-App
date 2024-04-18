@@ -16,4 +16,8 @@ export class BotonAntipanicoService {
     return this.http.post(this.URL_API + "/" + email, botonAntipanico);
   }
 
+  alertarPolicia(lat: number, lon : number){
+    return this.http.post(this.URL_API + "/alertarPolicia/" + lat + '/' + lon,"");
+  }
+
 }

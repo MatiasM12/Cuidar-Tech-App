@@ -10,7 +10,7 @@
 <ion-content>
   <ion-card class="card-content">
     <ion-card-header class="card-header">
-      <img src="./../../../assets/comisaria-de-policia.png" class="header-image" alt="Custom Image">
+      <img [src]="obtenerIconoComisaria(comisaria.tipo)" class="header-image" alt="Custom Image">
       {{ comisaria.nombre }}
     </ion-card-header>
       <div class="info-item">

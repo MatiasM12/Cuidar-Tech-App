@@ -31,6 +31,7 @@ import { HomeVictimarioPageModule } from './components/home-victimario/home-vict
 import { PruebasDeVidaPageModule } from './components/pruebas-de-vida/pruebas-de-vida.module';
 import { NotificacionesPageModule } from './components/notificaciones/notificaciones.module';
 import { HomePageModule } from './home/home.module';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -63,6 +64,7 @@ import { HomePageModule } from './home/home.module';
     Camera,
     Geolocation,
     ForegroundService,
+    BackgroundGeolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

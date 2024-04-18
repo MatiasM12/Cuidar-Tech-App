@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { InformacionComisariaComponent } from './informacion-comisaria.component';
+import { InformacionComisariaComponent } from './informacion-comisaria.page';
 import { IonicModule } from '@ionic/angular';
 
 const routes: Routes = [

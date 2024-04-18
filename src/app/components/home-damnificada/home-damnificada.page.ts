@@ -78,13 +78,21 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
     botonAntipanico.latitud = this.lat;
     botonAntipanico.longitud = this.lon;
 
-    this.storage.get('persona').then((email) => {
-      this.botonAntipanicoService.alertar(botonAntipanico, email)
+    await this.storage.get('persona').then(async (email) => {
+      await this.botonAntipanicoService.alertar(botonAntipanico, email)
         .subscribe( res => {
            this.loadingController.dismiss();
           this.presentToast('Alerta enviada a contactos correctamente.');
         });
     });
+
+    await this.showLoader("Enviando alerta a comisarias...");
+
+    await this.botonAntipanicoService.alertarPolicia(this.lat,this.lon)
+        .subscribe(res => {
+          this.loadingController.dismiss();
+          this.presentToast('Alerta enviada a comisarias correctamente.');
+    })
   }
 
   //ABRE CUADRO DE CARGA
