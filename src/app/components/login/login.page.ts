@@ -51,21 +51,21 @@ export class LoginPage implements OnInit {
       await this.showLoader();
       console.log("entre");
       
-      this.usuarioService.login(mail, contrasena)
-        .subscribe(async rolUsuario => {
+      await this.usuarioService.login(mail, contrasena)
+        .then(async rolUsuario => {
           await this.loadingController.dismiss();
           this.usuarioStorage.email = mail;
-          this.usuarioStorage.rolDeUsuario = rolUsuario as string;
-          console.log("DATOS ROL: " + rolUsuario);
+          this.usuarioStorage.rolDeUsuario = rolUsuario.data as string;
           await this.setUsuario(mail);
-          if (rolUsuario == "VICTIMARIO") {
+          if (this.usuarioStorage.rolDeUsuario == "VICTIMARIO") {
             this.router.navigate(["/home-victimario"]);
             await localStorage.setItem('emailUsuario', mail);
             await localStorage.setItem('rolUsuario', "VICTIMARIO")
             await this.storage.set('usuario', this.usuarioStorage);
             await this.comunicacion.enviarEmailUsuario(mail);
           }
-          else if (rolUsuario == "DAMNIFICADA") {
+          else if (this.usuarioStorage.rolDeUsuario == "DAMNIFICADA") {
+            console.log("🚀 ~ LoginPage ~ ingresar ~ rolUsuario:", this.usuarioStorage.rolDeUsuario)
             this.router.navigate(["/home-damnificada"]);
             await localStorage.setItem('emailUsuario', mail);
             await localStorage.setItem('rolUsuario', "DAMNIFICADA")
@@ -81,8 +81,8 @@ export class LoginPage implements OnInit {
   async showLoader() {
     this.loaderToShow = await this.loadingController.create({
       message: 'Iniciando sesión'
-    }).then( (res) => {
-       res.present();
+    }).then(async (res) => {
+       await res.present();
     });
   }
 

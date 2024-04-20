@@ -13,9 +13,9 @@ import { Notificacion } from './models/notificacion';
 import { ForegroundService } from '@ionic-native/foreground-service/ngx';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
-import { CapacitorHttp } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Http } from '@capacitor-community/http';
+import { CapacitorHttp } from '@capacitor/core';
 
 @Component({
   selector: 'app-root',
@@ -36,16 +36,17 @@ export class AppComponent {
     private storage: Storage
   ) {
     StatusBar.setBackgroundColor({ color: '#3498DB' });
+
     this.email = "victima1@victima1.com"
     this.initializeApp();
+    setInterval(()=> this.mostrarNotificacion(),50000)
   }
-
 
   private latitud: number | undefined; // O el tipo de dato que corresponda
   private longitud: number | undefined; // O el tipo de dato que corresponda
 
   private contador = 0;
-  readonly URL_API = 'http://192.168.0.18:9090/' + 'Ubicacion';
+  readonly URL_API = 'http://192.168.0.18:9090/Ubicacion';
   private email = localStorage.getItem("emailUsuario")
 
 
@@ -99,41 +100,40 @@ export class AppComponent {
 
   async hagoElPost() {
     console.log("Interval de 10 segs");
-    let location = await Geolocation.getCurrentPosition();
+    // let location = await Geolocation.getCurrentPosition();
 
-    this.latitud = location.coords.latitude;
-    this.longitud = location.coords.longitude;
+    // this.latitud = location.coords.latitude;
+    // this.longitud = location.coords.longitude;
     
-    const data = {
-      latitud: this.latitud,
-      longitud: this.longitud
-    };
-    const emailUsuario = 'victima1@victima1.com'; 
+    // const data = {
+    //   latitud: this.latitud,
+    //   longitud: this.longitud
+    // };
+    // const emailUsuario = 'victima1@victima1.com'; 
 
-    // Configuración de la solicitud HTTP
-    const options = {
-      url: `${this.URL_API}/postUbi/${emailUsuario}`, 
-      headers: {
-        'Content-Type': 'application/json' 
-      },
-      data: JSON.stringify(data) 
-    };
+    // // Configuración de la solicitud HTTP
+    // const options = {
+    //   url: `${this.URL_API}/postUbi/${emailUsuario}`, 
+    //   headers: {
+    //     'Content-Type': 'application/json' 
+    //   },
+    //   data: JSON.stringify(data) 
+    // };
 
-    console.log("HAGO EL POST CON HTTP NATIVO 2 --------------------- lat: " + this.latitud + "    lon: " + this.longitud + "   email2: " + emailUsuario);
-    console.log(emailUsuario);
+    // console.log("HAGO EL POST CON HTTP NATIVO 2 --------------------- lat: " + this.latitud + "    lon: " + this.longitud + "   email2: " + emailUsuario);
+    // console.log(emailUsuario);
 
-    // Realiza la solicitud HTTP usando Http
-    await Http.request({
-      method: "POST",
-      url: `${this.URL_API}/postUbi/${emailUsuario}`, 
-      headers: {
-        'Content-Type': 'application/json' 
-      },
-      data: {
-        location: JSON.stringify(data),
-      }
-    });
-    this.mostrarNotificacion();
+    // // Realiza la solicitud HTTP usando Http
+    // await Http.request({
+    //   method: "POST",
+    //   url: `${this.URL_API}/postUbi/${emailUsuario}`, 
+    //   headers: {
+    //     'Content-Type': 'application/json' 
+    //   },
+    //   data: {
+    //     location: JSON.stringify(data),
+    //   }
+    // });
 
 
   }
@@ -195,16 +195,10 @@ export class AppComponent {
 
 
     // Realiza la solicitud HTTP usando Http
-      await Http.request({
-          method: "POST",
-          url: `${this.URL_API}/postUbi/${emailUsuario}`, 
-          headers: {
-            'Content-Type': 'application/json' 
-          },
-          data: {
-            location: JSON.stringify(data),
-          }
-      });
+      await CapacitorHttp.post(options);
+
+    //this.http.post(`${this.URL_API}/postUbi/${emailUsuario}`,data)
+
   }
 
   // tengoNotificaciones() {
@@ -220,16 +214,16 @@ export class AppComponent {
   // }
 
   mostrarNotificacion() {
-    // LocalNotifications.schedule({
-    //   notifications: [
-    //     {
-    //       title: "Ubicacion en segundo plano",
-    //       body: "La aplicacion esta usando la ubicacion en segundo plano",
-    //       ongoing: true,
-    //       id: 1
-    //     }
-    //   ]
-    // });
+    LocalNotifications.schedule({
+      notifications: [
+        {
+          title: "Ubicacion en segundo plano",
+          body: "La aplicacion esta usando la ubicacion en segundo plano",
+          ongoing: true,
+          id: 1
+        }
+      ]
+    });
   }
 
 

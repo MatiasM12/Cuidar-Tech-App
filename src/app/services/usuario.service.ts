@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
 import { environment } from '../../environments/environment';
+import { CapacitorHttp } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,16 @@ export class UsuarioService {
       email: email,
       contrasena: contrasena
     };
-    return this.http.post(this.URL_API + "/loginApp", loginInfo);
+    const options = {
+      url: `${this.URL_API}/loginApp`, 
+      headers: {
+        'Content-Type': 'application/json' 
+      },
+      data: JSON.stringify(loginInfo) 
+    };
+    
+    console.log("🚀 ~ UsuarioService ~ login ~ loginInfo:", loginInfo.email, loginInfo.contrasena)
+    return CapacitorHttp.post(options);
   }
 
   recuperarContrasena(usuario: Usuario){
