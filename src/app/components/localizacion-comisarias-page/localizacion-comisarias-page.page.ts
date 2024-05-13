@@ -118,14 +118,14 @@ export class LocalizacionComisariasPagePage implements OnInit {
         if(comisaria.tipo == "MUJER"){
           markerComisaria.setStyle(new Style({
             image: new Icon({
-              src: 'assets/markerComisariaDeLaMujer.png',
+              src: '../../../assets/markerComisariaDeLaMujer.png',
               size: [60, 60] // Tamaño de la imagen del icono
             })
           }));
         }else{
           markerComisaria.setStyle(new Style({
             image: new Icon({
-              src: 'assets/markerComisaria.png',
+              src: '../../../assets/markerComisaria.png',
               size: [60, 60] // Tamaño de la imagen del icono
             })
           }));

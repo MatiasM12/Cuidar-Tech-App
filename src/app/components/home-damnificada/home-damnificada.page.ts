@@ -71,28 +71,30 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
   }
 
   async alertar() {
-    await this.showLoader("Enviando alerta a contactos...");
     //GENERO EL OBJETO A GUARDAR DE BOTON ANTIPANICO
     let botonAntipanico: BotonAntipanico = new BotonAntipanico;
 
     botonAntipanico.latitud = this.lat;
     botonAntipanico.longitud = this.lon;
 
+    await this.showLoader("Enviando alerta a comisarias y contactos...");
+
+    await this.botonAntipanicoService.alertarPolicia(this.lat,this.lon,1)
+        .subscribe(res => {
+          this.loadingController.dismiss();
+    })
+
+
     await this.storage.get('persona').then(async (email) => {
       await this.botonAntipanicoService.alertar(botonAntipanico, email)
-        .subscribe( res => {
-           this.loadingController.dismiss();
-          this.presentToast('Alerta enviada a contactos correctamente.');
+        .subscribe(res => {
+          this.loadingController.dismiss();
+          this.presentToast('Alerta enviada a comisarias y contactos correctamente.');
         });
     });
 
-    await this.showLoader("Enviando alerta a comisarias...");
 
-    await this.botonAntipanicoService.alertarPolicia(this.lat,this.lon)
-        .subscribe(res => {
-          this.loadingController.dismiss();
-          this.presentToast('Alerta enviada a comisarias correctamente.');
-    })
+
   }
 
   //ABRE CUADRO DE CARGA
@@ -118,7 +120,7 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
   //CONFIRMACION DE BOTON ANTIPANICO
   async presentAlertConfirm() {
     const alert = await this.alertController.create({
-      header: '¿Dese activar el botón antipánico?',
+      header: '¿Desea activar el botón antipánico?',
       buttons: [
         {
           text: 'Aceptar',

@@ -1,25 +1,27 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="custom" class="custom-toolbar"> 
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
     <ion-title>VdgApp</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
-  <ion-button expand="full" shape="round" routerLink='/pruebas-de-vida'>
-    <ion-icon slot="start" name="camera"></ion-icon>Pruebas de vida
+<ion-content class="ion-padding">
+  <ion-button expand="full" shape="round" color="#480971" class="ion-margin-bottom custom-button" routerLink='/pruebas-de-vida'>
+    <ion-icon slot="start" name="camera" class="custom-icon"></ion-icon>Pruebas de vida 
   </ion-button>
 
-  <ion-button expand="full" shape="round" routerLink='/notificaciones'>
-    <ion-icon slot="start" name="notifications"></ion-icon>Notificaciones
+  <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" routerLink='/notificaciones'>
+    <ion-icon slot="start" name="notifications" class="custom-icon"></ion-icon>Notificaciones
   </ion-button>
 
 </ion-content>
 
-<ion-footer>
+<ion-footer >
   <ion-toolbar>
-      <ion-button expand="full" shape="round" (click)="cerrarSesion()">
-          <ion-icon slot="start" name="close"></ion-icon>Cerrar sesión
+      <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button"(click)="cerrarSesion()">
+          <ion-icon slot="start" name="close" class="custom-icon"></ion-icon>Cerrar sesión
       </ion-button>
   </ion-toolbar>
 </ion-footer>

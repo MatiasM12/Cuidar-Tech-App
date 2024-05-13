@@ -1,33 +1,34 @@
 <app-menu></app-menu>
 
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="custom" class="custom-toolbar"> 
     <ion-buttons slot="start">
-      <ion-menu-button autoHide="false" ></ion-menu-button>
+      <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
-    <ion-title >VdgApp</ion-title>
+    <ion-title>VdgApp</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content class="ion-padding">
-  <ion-button expand="full" shape="round" class="ion-margin-bottom custom-button" (click)="localizarVictimario()">
+  <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" (click)="localizarVictimario()">
     <ion-icon slot="start" name="locate" class="custom-icon"></ion-icon>Localizar victimario
   </ion-button>
 
-  <ion-button expand="full" shape="round" class="ion-margin-bottom custom-button" routerLink="/gestionar-contactos">
+  <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" routerLink="/gestionar-contactos">
     <ion-icon slot="start" name="person" class="custom-icon"></ion-icon>Gestionar contactos
   </ion-button>
 
-  <ion-button expand="full" shape="round" class="ion-margin-bottom custom-button" routerLink='/pruebas-de-vida'>
-    <ion-icon slot="start" name="camera" class="custom-icon"></ion-icon>Pruebas de vida
+  <ion-button expand="full" shape="round" color="#480971" class="ion-margin-bottom custom-button" routerLink='/pruebas-de-vida'>
+    <ion-icon slot="start" name="camera" class="custom-icon"></ion-icon>Pruebas de vida 
   </ion-button>
 
-  <ion-button expand="full" shape="round" class="ion-margin-bottom custom-button" routerLink='/localizacion-comisarias'>
-    <ion-icon slot="start" name="shield" class="custom-icon"></ion-icon>Ver comisarias
+  <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" routerLink='/localizacion-comisarias'>
+    <ion-icon slot="start" name="shield" class="custom-icon"></ion-icon>Ver comisarías
   </ion-button>
 
-  <ion-button expand="full" shape="round" class="ion-margin-bottom custom-button" routerLink='/notificaciones'>
-    <ion-icon slot="start" name="notifications" class="custom-icon"></ion-icon>Noficiaciones
+  <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" routerLink='/notificaciones'>
+    <ion-icon slot="start" name="notifications" class="custom-icon"></ion-icon>Notificaciones
   </ion-button>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">

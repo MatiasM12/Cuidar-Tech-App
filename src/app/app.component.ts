@@ -35,7 +35,7 @@ export class AppComponent {
     private http: HttpClient,
     private storage: Storage
   ) {
-    StatusBar.setBackgroundColor({ color: '#3498DB' });
+    StatusBar.setBackgroundColor({ color: '#6030ff' });
 
     this.email = "victima1@victima1.com"
     this.initializeApp();
@@ -56,7 +56,7 @@ export class AppComponent {
 
       this.foregroundService.start('GPS Running', 'Background Service');
       setInterval(() => this.notificar(), 20000);
-      StatusBar.setBackgroundColor({ color: '#3880ff' });
+      StatusBar.setBackgroundColor({ color: '#480971' });
       this.splashScreen.hide();
 
       this.backgroundMode.on('activate').subscribe(() => {
@@ -87,7 +87,7 @@ export class AppComponent {
       console.log("estoy en Segundo planooooooooooooooooooooooooooooooooooooooooooooooo");
       this.foregroundService.start('GPS Running', 'Background Service');
       setInterval(() => this.notificar(), 20000);
-      StatusBar.setBackgroundColor({ color: '#3880ff' });
+      StatusBar.setBackgroundColor({ color: '#480971' });
       this.splashScreen.hide();
 
 
@@ -214,16 +214,16 @@ export class AppComponent {
   // }
 
   mostrarNotificacion() {
-    LocalNotifications.schedule({
-      notifications: [
-        {
-          title: "Ubicacion en segundo plano",
-          body: "La aplicacion esta usando la ubicacion en segundo plano",
-          ongoing: true,
-          id: 1
-        }
-      ]
-    });
+    // LocalNotifications.schedule({
+    //   notifications: [
+    //     {
+    //       title: "Ubicacion en segundo plano",
+    //       body: "La aplicacion esta usando la ubicacion en segundo plano",
+    //       ongoing: true,
+    //       id: 1
+    //     }
+    //   ]
+    // });
   }
 
 

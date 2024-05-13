@@ -1,9 +1,9 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="custom" class="custom-toolbar">
     <ion-buttons slot="start">
       <ion-back-button ></ion-back-button>
     </ion-buttons>
-    <ion-title>Informacion</ion-title>
+    <ion-title>Información</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -29,7 +29,7 @@
         <strong>Comisaría a Cargo:</strong> {{ comisaria.comisariaACargo }}
       </div>
 
-    <ion-button expand="block" (click)="irAGoogleMaps()" class="google-maps-btn"><ion-icon slot="start" name="location"></ion-icon> Ir a Google Maps</ion-button>
+    <ion-button expand="block" color="#480971" (click)="irAGoogleMaps()" class="google-maps-btn"><ion-icon slot="start"  name="location" ></ion-icon> Ir a Google Maps</ion-button>
 
     </ion-card>
 </ion-content>

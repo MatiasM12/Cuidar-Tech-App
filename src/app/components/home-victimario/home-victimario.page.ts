@@ -80,7 +80,7 @@ export class HomeVictimarioPage implements OnInit {
 
   enviarFoto() {
     console.log("Envio la foto");
-    this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada).subscribe(res => {
+    this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada,"Neutral").subscribe(res => {
       console.log(this.fotoSacada);
       console.log("PRUEBA ENVIADA");
     });

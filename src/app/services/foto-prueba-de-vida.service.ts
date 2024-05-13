@@ -12,7 +12,11 @@ export class FotoPruebaDeVidaService {
 
   constructor(private http: HttpClient) { }
 
-  postFotoPruebaDeVida(idPruebaDeVida: number, foto: string) {
-    return this.http.post(this.URL_API + "/"+ idPruebaDeVida , foto);
+  postFotoPruebaDeVida(idPruebaDeVida: number, foto: string, accion: string) {
+    const body = {
+      foto: foto,
+      accionRealizada: accion 
+    };  
+    return this.http.post(this.URL_API + "/"+ idPruebaDeVida , body);
   }
 }

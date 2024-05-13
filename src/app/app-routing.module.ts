@@ -22,6 +22,11 @@ const routes: Routes = [
     path: 'info-comisaria',
     loadChildren: () => import('./components/informacion-comisaria/informacion-comisaria.module').then( m => m.InformacionComisariaModule)
   },
+  {
+    path: 'verificar-prueba-de-vida',
+    loadChildren: () => import('./components/verificar-prueba-de-vida/verificar-prueba-de-vida.module').then( m => m.VerificarPruebaDeVidaPageModule)
+  },
+
 
 
 ];

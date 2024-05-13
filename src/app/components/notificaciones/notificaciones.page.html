@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="custom" class="custom-toolbar">
     <ion-buttons slot="start">
       <ion-back-button (click)="ir()"></ion-back-button>
     </ion-buttons>
@@ -9,11 +9,10 @@
 
 <ion-content padding>
 
-  <ion-list *ngFor="let notificacion of notificaciones">
-    <ion-item>
-      <ion-icon name="notifications-outline"></ion-icon>
-      {{notificacion.asunto}} - {{notificacion.descripcion}}
+  <ion-list  *ngFor="let notificacion of notificaciones">
+    <ion-item [button]="true">
+      <ion-icon name="notifications-outline" class="icon" slot="start" size="large"></ion-icon>
+      <ion-label> {{notificacion.asunto}} - {{notificacion.descripcion}}</ion-label>
     </ion-item>
   </ion-list>
-
 </ion-content>

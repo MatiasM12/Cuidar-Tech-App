@@ -1,0 +1,39 @@
+.custom-toolbar {
+  background-color: #480971;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+
+#container {
+    text-align: center;
+    position: absolute;
+    padding-top: 15px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .user-media{
+    min-height: 500px;
+    max-width: 400px;
+    margin-inline: auto;
+  }
+  #user-canvas{
+    position: absolute; /* Will overlay the video stream. */
+    top: 44px; /* place it after the button space */
+    object-fit: contain;
+  }
+
+  .check-icon {
+    width: 74px; 
+    height: 74px; 
+    margin-top: 16px; 
+    margin-bottom: 16px; 
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+  }

@@ -1,0 +1,32 @@
+[req]
+default_bits = 4096
+default_md = sha256
+distinguished_name = subject
+req_extensions = req_ext
+x509_extensions = x509_ext
+string_mask = utf8only
+prompt = no
+
+[subject]
+C = US
+ST = WI
+L = Madison
+O = Ionic
+OU = Desarrollo
+CN = 192.168.0.11
+
+[x509_ext]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alternate_names
+
+[req_ext]
+subjectKeyIdentifier = hash
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+subjectAltName = @alternate_names
+
+[alternate_names]
+IP.1 = 192.168.0.11

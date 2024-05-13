@@ -1,6 +1,6 @@
 <ion-menu side="start" menuId="first" contentId="principal">
     <ion-header>
-        <ion-toolbar color="primary">
+        <ion-toolbar color="custom" class="custom-toolbar"> 
             <ion-title>VdgApp</ion-title>
         </ion-toolbar>
     </ion-header>
@@ -8,7 +8,7 @@
         <ion-list>
             <ion-menu-toggle *ngFor="let item of listaDamnificada">
                 <ion-item routerLink={{item.url}}>
-                    <ion-icon slot="start" name={{item.icon}}></ion-icon>
+                    <ion-icon slot="start" name={{item.icon}} class="icon"></ion-icon>
                     <ion-label>{{item.titulo}}</ion-label>
                 </ion-item>
             </ion-menu-toggle>
@@ -16,7 +16,7 @@
     </ion-content>
     <ion-footer>
         <ion-toolbar>
-            <ion-button expand="full" shape="round" (click)="cerrarSesion()">
+            <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" (click)="cerrarSesion()">
                 <ion-icon slot="start" name="close"></ion-icon>Cerrar sesión
             </ion-button>
         </ion-toolbar>

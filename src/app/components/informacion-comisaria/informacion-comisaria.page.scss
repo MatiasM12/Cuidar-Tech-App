@@ -1,3 +1,15 @@
+.icon{
+  background-color: #480971;
+}
+.custom-toolbar {
+  background-color: #480971;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  flex-direction: row; 
+}
+
 .card-header {
     font-size: 24px;
     font-weight: bold;
@@ -31,5 +43,6 @@
   
   .google-maps-btn {
     margin-top: 30px;
+    background-color: #480971;
   }
   

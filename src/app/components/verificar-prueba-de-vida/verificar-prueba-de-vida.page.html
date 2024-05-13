@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="custom" class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Verificación</ion-title>
+  </ion-toolbar>
+</ion-header>  
+
+
+<ion-content [fullscreen]="true">
+
+  <div id="container" *ngIf="!todasAccionesCompletadas">
+    <ion-button [color]="tracking ? 'danger' : 'primary'" >
+      <ion-label class="ion-padding" (click)="toggleTracking()">Iniciar</ion-label>
+      <ion-icon [name]="tracking ? 'close' : 'finger-print'"></ion-icon>
+    </ion-button>
+    <h1 id="titulo-accion" style="text-align: center;">¡Realiza una Acción para Empezar!</h1>
+    
+      <video class="user-media" id="user-video" autoplay playsinline></video>
+      <canvas class="user-media" id="user-canvas" ></canvas>
+  </div>
+
+  <div id="container" *ngIf="todasAccionesCompletadas">
+    <!-- Contenido cuando se han completado todas las acciones -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="check-icon">
+      <path fill="#74C0FC" d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z"/>
+    </svg>
+    <h1 style="text-align: center;" >Muy bien, has realizado todas las acciones correctamente.</h1>
+    <ion-button color="primary" (click)="volverAlInicio()">Volver al Inicio</ion-button>
+  </div>
+</ion-content>
+

@@ -34,6 +34,8 @@ export class GestionarContactosPage implements OnInit {
     this.storage.get('persona').then(async (email) => {
       this.contactoService.getContacto(email)
       .subscribe(async res => {
+        console.log(res);  
+        
         await this.loadingController.dismiss();
         this.contactos = res as Contacto[];
       });
