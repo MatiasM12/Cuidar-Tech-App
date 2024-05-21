@@ -1,18 +1,22 @@
 <ion-header>
   <ion-toolbar color="custom" class="custom-toolbar">
     <ion-buttons slot="start">
-      <ion-back-button (click)="ir()"></ion-back-button>
+      <ion-back-button (click)="ir()" class="back-button"></ion-back-button>
     </ion-buttons>
-    <ion-title>Notificaciones</ion-title>
+    <ion-title class="title">Notificaciones</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-
-  <ion-list  *ngFor="let notificacion of notificaciones">
-    <ion-item [button]="true">
+<ion-content color="light" padding>
+  <ion-list class="list">
+    <ion-item *ngFor="let notificacion of notificaciones" [button]="true" (click)="verNotificacion(notificacion)" lines="none">
       <ion-icon name="notifications-outline" class="icon" slot="start" size="large"></ion-icon>
-      <ion-label> {{notificacion.asunto}} - {{notificacion.descripcion}}</ion-label>
+      <ion-label class="notification-label">{{notificacion.asunto}}</ion-label>
+      <ion-icon name="eye-off" class="icon eye-icon" *ngIf="notificacion.estado === 'NoVista'"></ion-icon>
+      <ion-icon name="archive" class="icon archive-icon" *ngIf="notificacion.estado === 'Archivada'"></ion-icon>
     </ion-item>
   </ion-list>
+
+
 </ion-content>
+

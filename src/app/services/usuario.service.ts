@@ -18,6 +18,10 @@ export class UsuarioService {
     return this.http.get(this.URL_API);
   }
 
+  getByEmail(email: string) {
+    return this.http.get(this.URL_API+/GetByEmail/+email);
+  }
+
   login(email: string, contrasena: string) {
     const loginInfo: { email: string; contrasena: string } = {
       email: email,

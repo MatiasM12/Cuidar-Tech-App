@@ -1,5 +1,5 @@
 {
-  "name": "vdgApp",
+  "name": "io.ionic.starter",
   "integrations": {
     "capacitor": {},
     "cordova": {}

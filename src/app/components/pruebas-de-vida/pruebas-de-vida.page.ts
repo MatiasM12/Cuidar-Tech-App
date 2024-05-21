@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { PruebaDeVida } from 'src/app/models/prueba-de-vida';
 import { LoadingController, Platform, AlertController  } from '@ionic/angular';
 import { PruebaDeVidaService } from 'src/app/services/prueba-de-vida.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import { FotoPruebaDeVidaService } from 'src/app/services/foto-prueba-de-vida.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
+import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-pruebas-de-vida',
@@ -16,8 +18,9 @@ export class PruebasDeVidaPage implements OnInit {
   loaderToShow: any;
   pruebasDeVida: PruebaDeVida[] = [];
   hayPruebasDeVida = true;
-  fotoSacada: any;
+  fotoSacada: any; 
   pruebaSeleccionada: PruebaDeVida;
+  usuario : Usuario = new Usuario;
 
   
 
@@ -25,6 +28,7 @@ export class PruebasDeVidaPage implements OnInit {
     public loadingController: LoadingController,
     private alertController: AlertController,
     private pruebaDeVidaService: PruebaDeVidaService,
+    private usuarioService: UsuarioService,
     private camara: Camera,
     private fotoPruebaDeVidaService: FotoPruebaDeVidaService,
     private platform: Platform,
@@ -32,6 +36,9 @@ export class PruebasDeVidaPage implements OnInit {
 
   async ngOnInit() {
      this.cargarPruebasDeVida();
+     this.usuarioService.getByEmail(localStorage.getItem("emailUsuario")!).subscribe(async res =>{
+     this.usuario = res as Usuario;
+    })
   }
 
 
@@ -39,7 +46,7 @@ export class PruebasDeVidaPage implements OnInit {
   async cargarPruebasDeVida() {
     var emailPersona = localStorage.getItem("emailUsuario");
     await this.showLoader();
-    if(emailPersona !== null)
+    if(emailPersona !== null) 
     this.pruebaDeVidaService.getPruebasDeVida(emailPersona).subscribe(async pruebasPersona => {
       await this.loadingController.dismiss();
       this.pruebasDeVida = pruebasPersona as PruebaDeVida[];
@@ -73,36 +80,34 @@ export class PruebasDeVidaPage implements OnInit {
   }
   enviarFoto() {
     console.log("Envio la foto");
-  
-    this.loadingController.create({
-      message: 'Enviando foto...'
-    }).then(loader => {
-      loader.present();
-  
-      this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada, "Mira al fente").subscribe(async (res: any) => {
-        console.log("🚀 ~ PruebasDeVidaPage ~ this.fotoPruebaDeVidaService.postFotoPruebaDeVida ~ res:", res)
-        await loader.dismiss();
+ 
+    this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada, this.pruebaSeleccionada.accion, this.usuario.idUsuario).subscribe(async (res: any) => {
         console.log(this.fotoSacada);
         console.log("PRUEBA ENVIADA");
-        const message = res && res.message ? res.message : 'Respuesta vacía';
-        // Mostrar la respuesta en una alerta
-        const alert = await this.alertController.create({
-          header: 'Respuesta de validacion',
-          message: 'Respuesta recibida: ' + message, // Mostrar la respuesta como una cadena JSON
-          buttons: ['OK']
-        });
-  
-        await alert.present();
       }, async error => {
         // En caso de error al enviar la foto
         console.error('Error al enviar la foto:', error);
-        await loader.dismiss();
       });
-    });
     
+    this.showAlert("Se notificará el resultado cuando este listo", '/home-damnificada');  
     console.log("EL ID A RESPONDER ES EL: " + this.pruebaSeleccionada.idPruebaDeVida);
   }
   
+  
+  async showAlert(message:string,url:string){
+    const alert = await this.alertController.create({
+      header: 'Se esta validando la prueba',
+      message: message, 
+      buttons: [ {
+        text: 'Continuar',
+        handler: () => {
+          this.router.navigateByUrl(url);
+        },
+      },]
+    });
+
+    await alert.present();
+  }
 
 
   async showLoader() {

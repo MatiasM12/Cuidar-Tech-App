@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Category, DrawingUtils, FaceLandmarker, FilesetResolver } from '@mediapipe/tasks-vision';
 import { Router } from '@angular/router';
+import { AlertController  } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-verificar-prueba-de-vida',
@@ -26,8 +28,8 @@ export class VerificarPruebaDeVidaPage implements OnInit, AfterViewInit {
   // Definir las posibles acciones y títulos correspondientes
   acciones = [
     { nombre: 'Guiño Derecho', atributo: 'eyeBlinkRight', titulo: '¡Has hecho un Guiño Derecho!' },
-    { nombre: 'Guiño Izquierdo', atributo: 'eyeBlinkLeft', titulo: '¡Has hecho un Guiño Izquierdo!' },
     { nombre: 'Sonrisa', atributo: 'mouthSmileRight', titulo: '¡Has Sonreído!' },
+    { nombre: 'Guiño Izquierdo', atributo: 'eyeBlinkLeft', titulo: '¡Has hecho un Guiño Izquierdo!' },
     { nombre: 'Boca abierta', atributo: 'jawOpen',titulo: '¡Tienes la Boca Abierta!' },
     { nombre: 'Levantar cejas', atributo: 'browInnerUp',titulo: '¡Has Levantado las Cejas!' }
   ];
@@ -36,18 +38,50 @@ export class VerificarPruebaDeVidaPage implements OnInit, AfterViewInit {
   accionesCompletadas: { [key: string]: boolean } = {};
   todasAccionesCompletadas: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private alertController: AlertController) { }
 
   async ngOnInit(): Promise<void> {
     this.faceLandmarker = await FaceLandmarker.createFromOptions(await FilesetResolver.forVisionTasks(this.wasmUrl), {
       baseOptions: { modelAssetPath: this.modelAssetPath, delegate: "GPU" },
-      outputFaceBlendshapes: true, // We will draw the face mesh in canvas.
+      outputFaceBlendshapes: false, // We will draw the face mesh in canvas.
       runningMode: "VIDEO",
-    }); // When FaceLandmarker is ready, you'll see in the console: Graph successfully started running.
-    // Elegir una acción aleatoria como título inicial
-    const accionInicial = this.acciones[Math.floor(Math.random() * this.acciones.length)];
-    document.getElementById('titulo-accion')!.innerText = accionInicial.nombre;
-    //this.startTracking(); 
+    }); 
+    // Elegir una acción como título inicial
+    const accionInicial = this.acciones[0];
+    document.getElementById('titulo-accion')!.innerText = accionInicial.nombre;   
+    //this.startTracking();
+  }
+
+  //Alert cada vez que entra a la pagina
+  ionViewDidEnter() {
+    //this.startTracking();
+
+    this.presentConfirmationAlert();
+  }
+
+  async presentConfirmationAlert() {
+    const alert = await this.alertController.create({
+      header: 'Validación por video',
+      message: 'Estás a punto de iniciar la prueba de reconocimiento por video. ¿Deseas continuar?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('El usuario canceló la prueba de reconocimiento por video.');
+            this.volverAlInicio();
+          },
+        },
+        {
+          text: 'Continuar',
+          handler: () => {
+            //this.startTracking();
+          },
+        }, 
+      ],
+    });
+
+    await alert.present();
   }
 
   async ngAfterViewInit(): Promise<void> {
@@ -60,17 +94,12 @@ export class VerificarPruebaDeVidaPage implements OnInit, AfterViewInit {
 
   startTracking() {
     // Check if we can access user media api.
-    console.log("🚀 ~ VerificarPruebaDeVidaPage ~ predictWebcam ~ predictWebcam:"); 
     (!(!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) || !this.faceLandmarker) && (console.warn("user media or ml model is not available"), false);
     // Everything is ready to go!
-    console.log("🚀 ~ VerificarPruebaDeVidaPage ~ predictWebcam ~ predictWebcam:")
     navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => (this.video.srcObject = stream, this.video.addEventListener("loadeddata", predictWebcam)));
-    console.log("🚀 ~ VerificarPruebaDeVidaPage ~ predictWebcam ~ predictWebcam:")
     
     let lastVideoTime = -1; let results: any = undefined; const drawingUtils = new DrawingUtils(this.canvasCtx!);
     let predictWebcam = async () => {
-    console.log("🚀 ~ VerificarPruebaDeVidaPage ~ predictWebcam ~ predictWebcam:", predictWebcam)
-
       // Resize the canvas to match the video size.
       this.canvasElement.width = this.video.videoWidth; this.canvasElement.height = this.video.videoHeight;
       // Send the video frame to the model.
@@ -82,6 +111,7 @@ export class VerificarPruebaDeVidaPage implements OnInit, AfterViewInit {
       };
 
       // Checks
+      let indice = 0;
       for (const accion of this.acciones) {
         if (
           results.faceLandmarks &&
@@ -97,8 +127,9 @@ export class VerificarPruebaDeVidaPage implements OnInit, AfterViewInit {
             // Mostrar título de la siguiente acción disponible
             const accionesDisponibles = this.acciones.filter(a => !this.accionesCompletadas[a.nombre]);
             if (accionesDisponibles.length > 0) {
-              const siguienteAccion = accionesDisponibles[Math.floor(Math.random() * accionesDisponibles.length)];
+              const siguienteAccion = accionesDisponibles[indice];
               const tituloElemento = document.getElementById('titulo-accion');
+              indice++
               if (tituloElemento) {
                 tituloElemento.innerText = siguienteAccion.nombre;
               }

@@ -41,52 +41,6 @@ export class HomeVictimarioPage implements OnInit {
   ngOnInit() {
   }
 
-  async cargarPruebasDeVida() {
-    var emailPersona = localStorage.getItem("emailUsuario");
-    await this.showLoader();
-    if(emailPersona !== null){
-      this.pruebaDeVidaService.getPruebasDeVida(emailPersona).subscribe(async pruebasPersona => {
-      await this.loadingController.dismiss();
-      this.pruebasDeVida = pruebasPersona as PruebaDeVida[];
-        if (this.pruebasDeVida.length == 0)
-          this.hayPruebasDeVida = false;
-      });
-    }
-
-  }
-
-  responderPruebaDeVida(pruebaDeVida : PruebaDeVida) {
-    console.log("HOLA");
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camara.DestinationType.DATA_URL,
-      encodingType: this.camara.EncodingType.JPEG,
-      mediaType: this.camara.MediaType.PICTURE
-    };
-
-    this.pruebaSeleccionada = pruebaDeVida;
-    console.log("Saco foto");
-    this.camara.getPicture(options).then((imageData) => {
-      console.log("SAQUE FOTO");
-      this.fotoSacada = 'data:image/png;base64,' + imageData;
-      console.log("STRING DE FOTO: ");
-      this.enviarFoto();
-    }, (err) => {
-      // Handle error
-      console.log("Error en la camara: " + err);
-    });
-
-  }
-
-  enviarFoto() {
-    console.log("Envio la foto");
-    this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada,"Neutral").subscribe(res => {
-      console.log(this.fotoSacada);
-      console.log("PRUEBA ENVIADA");
-    });
-    console.log("EL ID A RESPONDER ES EL: " + this.pruebaSeleccionada.idPruebaDeVida);
-  }
-
   async showLoader() {
     this.loaderToShow = await this.loadingController.create({
       message: 'Cargando solicitudes de prueba de vida'

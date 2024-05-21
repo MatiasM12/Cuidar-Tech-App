@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Notificacion } from 'src/app/models/notificacion';
 import { NotificacionService } from 'src/app/services/notificacion.service';
 import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,12 +12,13 @@ import { Router } from '@angular/router';
 })
 export class NotificacionesPage implements OnInit {
 
-  notificaciones: Notificacion[] = [];;
+  notificaciones: Notificacion[] = [];
   loaderToShow: any;
 
   constructor(
     private notificacionService: NotificacionService,
     public loadingController: LoadingController,
+    private alertController: AlertController,
     private router: Router,
     private comunicacion: ComunicacionService) { }
 
@@ -26,23 +27,56 @@ export class NotificacionesPage implements OnInit {
   }
 
   getNotificaciones() {
-    //    this.showLoader();
     let emailUsuario = localStorage.getItem("emailUsuario");
-    if(emailUsuario !== null)
-    this.notificacionService.getNoificaciones(emailUsuario)
+    if (emailUsuario !== null) {
+      this.notificacionService.getNoificaciones(emailUsuario)
+        .subscribe(res => {
+          console.log(res);
+          this.notificaciones = res as Notificacion[];
+          this.notificaciones.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+        });
+    }
+  }
+
+  async verNotificacion(notificacion: Notificacion) {
+    const alert = await this.alertController.create({
+      header: notificacion.asunto,
+      message: notificacion.descripcion,
+      buttons: [
+        {
+          text: 'Marcar como vista',
+          handler: () => {
+            this.marcarComoVista(notificacion.idNotificacion);
+          }
+        },
+        {
+          text: 'Archivar',
+          handler: () => {
+            this.archivarNotificacion(notificacion.idNotificacion);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  marcarComoVista(idNotificacion: number) {
+    this.notificacionService.marcarComoVista(idNotificacion)
       .subscribe(res => {
-        console.log(res);
-        //        this.loadingController.dismiss();
-        this.notificaciones = res as Notificacion[];
+        this.getNotificaciones(); // Actualizar la lista de notificaciones
       });
   }
 
-  showLoader() {
-    this.loaderToShow = this.loadingController.create({
-      message: 'Cargando notificaciones'
-    }).then((res) => {
-      res.present();
-    });
+  archivarNotificacion(idNotificacion: number) {
+    this.notificacionService.archivarNotificacion(idNotificacion)
+      .subscribe(res => {
+        this.getNotificaciones(); // Actualizar la lista de notificaciones
+      });
   }
 
   ir() {

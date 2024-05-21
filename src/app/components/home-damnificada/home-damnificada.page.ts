@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage';
 import { LoadingController, ToastController, AlertController, Platform } from '@ionic/angular';
 import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
 import { BotonAntipanico } from 'src/app/models/boton-antipanico';
-
+import { NotificacionService } from 'src/app/services/notificacion.service';
 
 @Component({
   selector: 'app-home-damnificada',
@@ -18,8 +18,8 @@ import { BotonAntipanico } from 'src/app/models/boton-antipanico';
 export class HomeDamnificadaPage implements OnInit {
 
   lat: number;
-  lon: number;
-
+  lon: number; 
+  notificationCount: number = 0; 
   //Back button
   subscribe: any;
 
@@ -27,7 +27,7 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
     private router: Router, private botonAntipanicoService: BotonAntipanicoService,
     private storage: Storage, public loadingController: LoadingController,
     private toastController: ToastController, private comunicacion: ComunicacionService,
-    private alertController: AlertController, private platform: Platform) {
+    private alertController: AlertController, private platform: Platform, private notifactionService:NotificacionService) {
     this.lat = 0; // Inicializando latitud con un valor por defecto
     this.lon = 0; // Inicializando longitud con un valor por defecto
   }
@@ -35,6 +35,18 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
   ngOnInit() {
     this.watchGeolocation();
   }
+
+  ionViewWillEnter() {
+    this.getNotificationCount();
+  }
+
+  getNotificationCount(){
+    this.storage.get('persona').then(async (email) => {
+      this.notifactionService.getCantidadNoVistas(email).subscribe( res => {
+        this.notificationCount = res as number
+     });})
+  }
+
 
   getGeolocation() {
     console.log("ME PIDIO POSITION");
@@ -141,5 +153,8 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
     await alert.present();
   }
 
+  openNotifications() {
+    this.router.navigate(['/notificaciones']);
+  }
 
 }

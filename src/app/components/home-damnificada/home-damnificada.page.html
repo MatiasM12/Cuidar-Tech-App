@@ -1,11 +1,17 @@
 <app-menu></app-menu>
 
 <ion-header>
-  <ion-toolbar color="custom" class="custom-toolbar"> 
+  <ion-toolbar color="custom" class="custom-toolbar">
     <ion-buttons slot="start">
-      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-menu-button autoHide="false" class="menu-icon"></ion-menu-button>
     </ion-buttons>
     <ion-title>VdgApp</ion-title>
+    <ion-buttons slot="end" style="margin-right: 10px;">
+      <ion-badge color="danger" class="count-icon" *ngIf="notificationCount > 0">{{ notificationCount }}</ion-badge>
+      <ion-button (click)="openNotifications()">
+        <ion-icon slot="icon-only" name="notifications" class="notification-icon"></ion-icon>
+      </ion-button >
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -25,10 +31,6 @@
 
   <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" routerLink='/localizacion-comisarias'>
     <ion-icon slot="start" name="shield" class="custom-icon"></ion-icon>Ver comisarías
-  </ion-button>
-
-  <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" routerLink='/notificaciones'>
-    <ion-icon slot="start" name="notifications" class="custom-icon"></ion-icon>Notificaciones
   </ion-button>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
