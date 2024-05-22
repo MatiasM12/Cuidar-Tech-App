@@ -1,9 +1,17 @@
 <ion-header>
-  <ion-toolbar color="custom" class="custom-toolbar"> 
+  <ion-toolbar color="custom" class="custom-toolbar">
     <ion-buttons slot="start">
-      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-button (click)="cerrarSesion()">
+        <ion-icon slot="icon-only" name="exit-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title>VdgApp</ion-title>
+    <ion-title>Cuidar Tech</ion-title>
+    <ion-buttons slot="end" style="margin-right: 10px;">
+      <ion-badge color="danger" class="count-icon" *ngIf="notificationCount > 0">{{ notificationCount }}</ion-badge>
+      <ion-button (click)="openNotifications()">
+        <ion-icon slot="icon-only" name="notifications" class="notification-icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,17 +19,4 @@
   <ion-button expand="full" shape="round" color="#480971" class="ion-margin-bottom custom-button" routerLink='/pruebas-de-vida'>
     <ion-icon slot="start" name="camera" class="custom-icon"></ion-icon>Pruebas de vida 
   </ion-button>
-
-  <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button" routerLink='/notificaciones'>
-    <ion-icon slot="start" name="notifications" class="custom-icon"></ion-icon>Notificaciones
-  </ion-button>
-
 </ion-content>
-
-<ion-footer >
-  <ion-toolbar>
-      <ion-button expand="full" color="#480971" shape="round" class="ion-margin-bottom custom-button"(click)="cerrarSesion()">
-          <ion-icon slot="start" name="close" class="custom-icon"></ion-icon>Cerrar sesión
-      </ion-button>
-  </ion-toolbar>
-</ion-footer>

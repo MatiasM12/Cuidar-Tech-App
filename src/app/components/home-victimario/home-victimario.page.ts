@@ -9,6 +9,8 @@ import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native
 import { Usuario } from 'src/app/models/usuario';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { NotificacionService } from 'src/app/services/notificacion.service';
+
 
 @Component({
   selector: 'app-home-victimario',
@@ -22,6 +24,7 @@ export class HomeVictimarioPage implements OnInit {
   hayPruebasDeVida = true;
   fotoSacada: any;
   pruebaSeleccionada: PruebaDeVida;
+  notificationCount: number = 0; 
 
   //Back button
   subscribe: any;
@@ -35,10 +38,22 @@ export class HomeVictimarioPage implements OnInit {
     private storage: Storage,
     private platform: Platform,
     private backgroundMode: BackgroundMode,
-    private localNotifications: LocalNotifications)
+    private localNotifications: LocalNotifications,
+    private notifactionService:NotificacionService)
   {this.pruebaSeleccionada = new PruebaDeVida();}
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
+    this.getNotificationCount();
+  }
+
+  getNotificationCount(){
+    this.storage.get('persona').then(async (email) => {
+      this.notifactionService.getCantidadNoVistas(email).subscribe( res => {
+        this.notificationCount = res as number
+     });})
   }
 
   async showLoader() {
@@ -54,6 +69,11 @@ export class HomeVictimarioPage implements OnInit {
     this.storage.set('usuario', new Usuario);
     this.backgroundMode.disable();
     this.router.navigate(["/login"]);
+  }
+
+  
+  openNotifications() {
+    this.router.navigate(['/notificaciones']);
   }
 
 }

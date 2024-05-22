@@ -31,4 +31,8 @@ export class NotificacionService {
   archivarNotificacion(idNotificacion: number) {
     return this.http.post(this.URL_API + "/archivar", idNotificacion);
   }
+
+  marcarTodasComoVistas(emailUsuario: string){
+    return this.http.put(`${this.URL_API}/marcarTodasComoVistas/${emailUsuario}`, { email: emailUsuario });
+  }
 }

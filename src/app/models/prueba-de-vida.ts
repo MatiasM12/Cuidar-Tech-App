@@ -1,10 +1,10 @@
 export class PruebaDeVida {
 
-    constructor(idPruebaDeVida = 0, fecha = new Date(), descripcion = '', estadoPruebaDeVida = '',idRestriccion = 0, idPersonaRestriccion = 0, accion = ''){
+    constructor(idPruebaDeVida = 0, fecha = new Date(), descripcion = '', estado = '',idRestriccion = 0, idPersonaRestriccion = 0, accion = ''){
         this.idPruebaDeVida=idPruebaDeVida;
         this.fecha = fecha;
         this.descripcion=descripcion;
-        this.estadoPruebaDeVida = estadoPruebaDeVida;
+        this.estado = estado;
         this.idRestriccion=idRestriccion;
         this.idPersonaRestriccion= idPersonaRestriccion;
         this.accion = accion;
@@ -13,7 +13,7 @@ export class PruebaDeVida {
     idPruebaDeVida: number;
     fecha: Date;
     descripcion: string;
-    estadoPruebaDeVida: string;
+    estado: string;
     idRestriccion: number;
     idPersonaRestriccion: number;
     accion: string;

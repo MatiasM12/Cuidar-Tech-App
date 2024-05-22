@@ -4,20 +4,27 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Pruebas de vida</ion-title>
+    <ion-buttons slot="end" class="filtros">
+      <ion-select placeholder="Pendiente" interface="action-sheet" (ionChange)="filtrarPruebasDeVida($event)">
+        <ion-select-option value="Todos">Todos</ion-select-option>
+        <ion-select-option value="Pendiente">Pendientes</ion-select-option>
+        <ion-select-option value="Rechazada">Rechazadas</ion-select-option>
+        <ion-select-option value="Aceptada">Aceptadas</ion-select-option>
+      </ion-select>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="light">
-  <ion-list [inset]="true" *ngFor="let pruebaDeVida of pruebasDeVida" (click)=responderPruebaDeVida(pruebaDeVida)>
-    <ion-item [button]="true">
+  <ion-list [inset]="true">
+    <ion-item *ngFor="let pruebaDeVida of pruebasFiltradas" (click)="responderPruebaDeVida(pruebaDeVida)" [button]="true">
       <ion-icon name="camera" class="icon" slot="start" size="large"></ion-icon>
       <ion-label>{{pruebaDeVida.descripcion}}</ion-label>
+      <ion-icon [name]="getEstadoIcon(pruebaDeVida.estado)" [class]="getEstadoClass(pruebaDeVida.estado)" slot="end" size="large"></ion-icon>
     </ion-item>
   </ion-list>
 
   <ion-text *ngIf="!hayPruebasDeVida">
     <h3>No hay solicitudes de prueba de vida.</h3>
   </ion-text>
-
-
 </ion-content>

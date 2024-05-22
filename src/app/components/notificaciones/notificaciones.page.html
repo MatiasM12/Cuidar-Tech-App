@@ -4,6 +4,11 @@
       <ion-back-button (click)="ir()" class="back-button"></ion-back-button>
     </ion-buttons>
     <ion-title class="title">Notificaciones</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="marcarTodasComoVistas()">
+        <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,11 +17,16 @@
     <ion-item *ngFor="let notificacion of notificaciones" [button]="true" (click)="verNotificacion(notificacion)" lines="none">
       <ion-icon name="notifications-outline" class="icon" slot="start" size="large"></ion-icon>
       <ion-label class="notification-label">{{notificacion.asunto}}</ion-label>
+      <ion-icon name="eye" class="icon eye-icon" *ngIf="notificacion.estado === 'Vista'"></ion-icon>
       <ion-icon name="eye-off" class="icon eye-icon" *ngIf="notificacion.estado === 'NoVista'"></ion-icon>
       <ion-icon name="archive" class="icon archive-icon" *ngIf="notificacion.estado === 'Archivada'"></ion-icon>
     </ion-item>
   </ion-list>
-
-
 </ion-content>
 
+<ion-segment [(ngModel)]="filtroEstado" (ionChange)="getNotificaciones()" color="tertiary">
+  <ion-segment-button value="Todas">Todas</ion-segment-button>
+  <ion-segment-button value="NoVista">No vistas</ion-segment-button>
+  <ion-segment-button value="Vista">Vistas</ion-segment-button>
+  <ion-segment-button value="Archivada">Archivadas</ion-segment-button>
+</ion-segment>

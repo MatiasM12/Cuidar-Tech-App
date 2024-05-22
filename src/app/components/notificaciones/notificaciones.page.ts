@@ -14,6 +14,8 @@ export class NotificacionesPage implements OnInit {
 
   notificaciones: Notificacion[] = [];
   loaderToShow: any;
+  filtroEstado: string = 'NoVista';
+
 
   constructor(
     private notificacionService: NotificacionService,
@@ -34,9 +36,14 @@ export class NotificacionesPage implements OnInit {
           console.log(res);
           this.notificaciones = res as Notificacion[];
           this.notificaciones.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+          
+          // Filtrar las notificaciones según el estado seleccionado
+          if(this.filtroEstado != 'Todas')
+            this.notificaciones = this.notificaciones.filter(notif => notif.estado === this.filtroEstado);
         });
     }
   }
+  
 
   async verNotificacion(notificacion: Notificacion) {
     const alert = await this.alertController.create({
@@ -85,6 +92,16 @@ export class NotificacionesPage implements OnInit {
     }
     else {
       this.router.navigate(["/home-victimario"]);
+    }
+  }
+
+  marcarTodasComoVistas() {
+    let emailUsuario = localStorage.getItem("emailUsuario");
+    if (emailUsuario !== null) {
+      this.notificacionService.marcarTodasComoVistas(emailUsuario)
+        .subscribe(res => {
+          this.getNotificaciones();
+        });
     }
   }
 
