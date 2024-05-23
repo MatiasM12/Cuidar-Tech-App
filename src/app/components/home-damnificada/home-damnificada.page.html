@@ -3,7 +3,9 @@
 <ion-header>
   <ion-toolbar color="custom" class="custom-toolbar">
     <ion-buttons slot="start">
-      <ion-menu-button autoHide="false" class="menu-icon"></ion-menu-button>
+      <ion-button (click)="cerrarSesion()">
+        <ion-icon slot="icon-only" name="exit-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Cuidar Tech</ion-title>
     <ion-buttons slot="end" style="margin-right: 10px;">

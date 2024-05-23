@@ -101,7 +101,7 @@ export class PruebasDeVidaPage implements OnInit {
   enviarFoto() {
     console.log("Envio la foto");
 
-    this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada, this.pruebaSeleccionada.accion, this.usuario.idUsuario).subscribe(async (res: any) => {
+    this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada, this.pruebaSeleccionada.accion, this.usuario.idUsuario, this.pruebaSeleccionada.idPersonaRestriccion).subscribe(async (res: any) => {
       console.log(this.fotoSacada);
       console.log("PRUEBA ENVIADA");
     }, async error => {

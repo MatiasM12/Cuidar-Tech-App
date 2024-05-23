@@ -9,6 +9,7 @@ import { LoadingController, ToastController, AlertController, Platform } from '@
 import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
 import { BotonAntipanico } from 'src/app/models/boton-antipanico';
 import { NotificacionService } from 'src/app/services/notificacion.service';
+import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-home-damnificada',
@@ -156,5 +157,31 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
   openNotifications() {
     this.router.navigate(['/notificaciones']);
   }
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: 'Cerrar Sesión',
+      message: '¿Estás seguro de que quieres cerrar la sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancelar');
+          }
+        }, {
+          text: 'Aceptar',
+          handler: () => {
+            console.log('Aceptar');
+            // Realizar el cierre de sesión
+            localStorage.setItem('emailUsuario', '');
+            this.storage.set('usuario', new Usuario());
+            this.router.navigate(['/login']);
+          }
+        }
+      ]
+    });
 
+    await alert.present();
+  }
 }

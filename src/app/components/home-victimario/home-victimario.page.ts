@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PruebaDeVida } from 'src/app/models/prueba-de-vida';
-import { LoadingController, Platform } from '@ionic/angular';
+import { LoadingController, Platform, AlertController } from '@ionic/angular';
 import { PruebaDeVidaService } from 'src/app/services/prueba-de-vida.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FotoPruebaDeVidaService } from 'src/app/services/foto-prueba-de-vida.service';
@@ -39,7 +39,9 @@ export class HomeVictimarioPage implements OnInit {
     private platform: Platform,
     private backgroundMode: BackgroundMode,
     private localNotifications: LocalNotifications,
-    private notifactionService:NotificacionService)
+    private notifactionService:NotificacionService,
+    private alertController: AlertController
+  )
   {this.pruebaSeleccionada = new PruebaDeVida();}
 
   ngOnInit() {
@@ -64,11 +66,32 @@ export class HomeVictimarioPage implements OnInit {
     });
   }
 
-  cerrarSesion(){
-    localStorage.setItem('emailUsuario', '');
-    this.storage.set('usuario', new Usuario);
-    this.backgroundMode.disable();
-    this.router.navigate(["/login"]);
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: 'Cerrar Sesión',
+      message: '¿Estás seguro de que quieres cerrar la sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Cancelar');
+          }
+        }, {
+          text: 'Aceptar',
+          handler: () => {
+            console.log('Aceptar');
+            // Realizar el cierre de sesión
+            localStorage.setItem('emailUsuario', '');
+            this.storage.set('usuario', new Usuario());
+            this.router.navigate(['/login']);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   
