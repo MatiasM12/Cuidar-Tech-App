@@ -4,8 +4,8 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Pruebas de vida</ion-title>
-    <ion-buttons slot="end" class="filtros">
-      <ion-select placeholder="Pendiente" interface="action-sheet" (ionChange)="filtrarPruebasDeVida($event)">
+    <ion-buttons slot="end" class="filtros" *ngIf="filtroTipo == 'Simples'">
+      <ion-select placeholder="{{filtroEstado}}" interface="action-sheet" (ionChange)="filtrarPruebasDeVida($event)">
         <ion-select-option value="Todos">Todos</ion-select-option>
         <ion-select-option value="Pendiente">Pendientes</ion-select-option>
         <ion-select-option value="Rechazada">Rechazadas</ion-select-option>
@@ -16,7 +16,7 @@
 </ion-header>
 
 <ion-content color="light">
-  <ion-list [inset]="true">
+  <ion-list [inset]="true" *ngIf="filtroTipo == 'Simples'">
     <ion-item *ngFor="let pruebaDeVida of pruebasFiltradas" (click)="responderPruebaDeVida(pruebaDeVida)" [button]="true">
       <ion-icon name="camera" class="icon" slot="start" size="large"></ion-icon>
       <ion-label>{{pruebaDeVida.descripcion}}</ion-label>
@@ -24,7 +24,32 @@
     </ion-item>
   </ion-list>
 
+  <ion-accordion-group class="grupo-desplegables" *ngIf="filtroTipo == 'Multiples'">
+    <ion-accordion *ngFor="let pruebaDeVidaMultiple of pruebasDeVidaMultiple" [value]="pruebaDeVidaMultiple.idPruebaDeVidaMultiple">
+      <ion-item slot="header" color="light" (click)="obtenerGrupo(pruebaDeVidaMultiple.idPruebaDeVidaMultiple)">
+        <ion-icon [name]="getEstadoIcon(pruebaDeVidaMultiple.estado)" [class]="getEstadoClass(pruebaDeVidaMultiple.estado)" slot="start" size="large"></ion-icon>
+        <ion-label>{{pruebaDeVidaMultiple.descripcion}}</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+          <ion-item *ngFor="let pruebaGrupo of pruebasGrupo" (click)="responderPruebaDeVida(pruebaGrupo)" [button]="true">
+            <ion-icon name="camera" class="icon" slot="start" size="large"></ion-icon>
+            <ion-label>{{pruebaGrupo.descripcion}}</ion-label>
+            <ion-icon [name]="getEstadoIcon(pruebaGrupo.estado)" [class]="getEstadoClass(pruebaGrupo.estado)" slot="end" size="large"></ion-icon>
+          </ion-item>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
   <ion-text *ngIf="!hayPruebasDeVida">
     <h3>No hay solicitudes de prueba de vida.</h3>
   </ion-text>
 </ion-content>
+
+<ion-segment color="tertiary" (ionChange)="segmentChanged($event)">
+  <ion-segment-button value="Simples" checked>
+    Simples
+  </ion-segment-button>
+  <ion-segment-button value="Multiples">
+    Multiples
+  </ion-segment-button>
+</ion-segment>

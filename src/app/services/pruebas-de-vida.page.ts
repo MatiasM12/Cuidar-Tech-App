@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PruebaDeVida } from 'src/app/models/prueba-de-vida';
 import { PruebaDeVidaMultiple } from 'src/app/models/prueba-de-vida-multiple';
 import { LoadingController, Platform, AlertController } from '@ionic/angular';
@@ -9,8 +9,6 @@ import { FotoPruebaDeVidaService } from 'src/app/services/foto-prueba-de-vida.se
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Router } from '@angular/router';
 import { Usuario } from 'src/app/models/usuario';
-import { PersonaService } from 'src/app/services/persona.service';
-import { Persona } from 'src/app/models/persona';
 
 @Component({
   selector: 'app-pruebas-de-vida',
@@ -30,8 +28,6 @@ export class PruebasDeVidaPage implements OnInit {
   usuario: Usuario = new Usuario();
   filtroEstado: string = 'Pendiente';
   filtroTipo: string = 'Simples'; // Nuevo filtro para el tipo de pruebas de vida
-  estadoGrupo: string = 'Pendiente'
-  idGrupoSeleccionado: number = 0;
 
   constructor(
     public loadingController: LoadingController,
@@ -41,8 +37,7 @@ export class PruebasDeVidaPage implements OnInit {
     private usuarioService: UsuarioService,
     private camara: Camera,
     private fotoPruebaDeVidaService: FotoPruebaDeVidaService,
-    private personaService: PersonaService,
-    private cdr: ChangeDetectorRef ,
+    private platform: Platform,
     private router: Router) { this.pruebaSeleccionada = new PruebaDeVida(); }
 
   async ngOnInit() {
@@ -57,9 +52,9 @@ export class PruebasDeVidaPage implements OnInit {
     await this.showLoader();
     if (emailPersona !== null) {
       this.pruebaDeVidaService.getPruebasDeVida(emailPersona).subscribe(async pruebasPersona => {
-        await this.loadingController.dismiss();
         this.pruebasDeVida = pruebasPersona as PruebaDeVida[];
         this.filtrarPruebasDeVida();
+        await this.loadingController.dismiss();
         if (this.pruebasDeVida.length == 0) {
           this.hayPruebasDeVida = false;
         }
@@ -85,7 +80,6 @@ export class PruebasDeVidaPage implements OnInit {
         (
           (this.filtroEstado === 'Rechazada' && (prueba.estado === 'Rechazada' || prueba.estado === 'RechazadaAutomaticamente')) ||
           (this.filtroEstado === 'Aceptada' && (prueba.estado === 'Aceptada' || prueba.estado === 'AceptadaAutomaticamente')) ||
-          (this.filtroEstado === 'Pendiente' && (prueba.estado === 'Pendiente' || prueba.estado === 'Procesando')) ||
           prueba.estado === this.filtroEstado
         )
       );
@@ -101,33 +95,23 @@ export class PruebasDeVidaPage implements OnInit {
     }
   }
 
-  async cargarPruebasDeVidaMultiples() { 
-    var idPersona = 0
-    await this.personaService.getPersonaByIdUsuario(this.usuario.idUsuario).subscribe(async (res)=>{
-      let persona = res as Persona; 
-      idPersona = persona.idPersona
-      await this.showLoader();
-      this.pruebaDeVidaMultipleService.getPruebasDeVidaMultiples(idPersona).subscribe(async pruebasMultiples => {
-        await this.loadingController.dismiss();
-        this.pruebasDeVidaMultiple = pruebasMultiples as PruebaDeVidaMultiple[];
-        this.pruebasDeVidaMultiple.reverse();
-        this.filtrarPruebasDeVida();
-        if (this.pruebasDeVida.length == 0) {
-          this.hayPruebasDeVida = false;
-        }
-        
-      });
-    })
-    
+  async cargarPruebasDeVidaMultiples() {
+    var idPersona = this.pruebaSeleccionada.idPersonaRestriccion; 
+    console.log("🚀 ~ PruebasDeVidaPage ~ cargarPruebasDeVidaMultiples ~ idPersona:", idPersona)
+    await this.showLoader();
+    this.pruebaDeVidaMultipleService.getPruebasDeVidaMultiples(idPersona).subscribe(async pruebasMultiples => {
+      await this.loadingController.dismiss();
+      this.pruebasDeVidaMultiple = pruebasMultiples as PruebaDeVidaMultiple[];
+      this.filtrarPruebasDeVida();
+      if (this.pruebasDeVida.length == 0) {
+        this.hayPruebasDeVida = false;
+      }
+    });
   }
 
   responderPruebaDeVida(pruebaDeVida: PruebaDeVida) {
     if (pruebaDeVida.estado === 'Rechazada' || pruebaDeVida.estado === 'RechazadaAutomaticamente' || pruebaDeVida.estado === 'Aceptada' || pruebaDeVida.estado === 'AceptadaAutomaticamente') {
       this.showAlert("No puede responder esta prueba de vida", "Porque ya ha sido " + pruebaDeVida.estado.toLowerCase() + ".", '/pruebas-de-vida');
-      return;
-    }
-    if (pruebaDeVida.estado === 'Procesando') {
-      this.showAlert("No puede responder esta prueba de vida", "Porque se esta " + pruebaDeVida.estado.toLowerCase() + ".", '/pruebas-de-vida');
       return;
     }
 
@@ -151,7 +135,7 @@ export class PruebasDeVidaPage implements OnInit {
     });
   }
 
-  async enviarFoto() {
+  enviarFoto() {
     console.log("Envio la foto");
 
     this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada, this.pruebaSeleccionada.accion, this.usuario.idUsuario, this.pruebaSeleccionada.idPersonaRestriccion).subscribe(async (res: any) => {
@@ -162,15 +146,8 @@ export class PruebasDeVidaPage implements OnInit {
       console.error('Error al enviar la foto:', error);
     });
 
-    await this.showAlert('Se está validando la prueba', "Se notificará el resultado cuando este listo", '/pruebas-de-vida');
+    this.showAlert('Se está validando la prueba', "Se notificará el resultado cuando este listo", '/home-damnificada');
     console.log("EL ID A RESPONDER ES EL: " + this.pruebaSeleccionada.idPruebaDeVida);
-    this.actualizarEstadoPruebaDeVida(this.pruebaSeleccionada)
-  }
-
-  async actualizarEstadoPruebaDeVida(pruebaDeVida: PruebaDeVida){
-    await this.pruebaDeVidaService.actualizarEstadoAProcesando(pruebaDeVida).subscribe(res => {
-      this.obtenerGrupo(this.idGrupoSeleccionado);
-    })
   }
 
   async showAlert(title: string, message: string, url: string) {
@@ -181,13 +158,6 @@ export class PruebasDeVidaPage implements OnInit {
         text: 'Continuar',
         handler: () => {
           this.router.navigateByUrl(url);
-          this.pruebaDeVidaService.getPruebasDeVida(localStorage.getItem("emailUsuario")!).subscribe(async pruebasPersona => {
-            this.pruebasDeVida = pruebasPersona as PruebaDeVida[];
-            this.filtrarPruebasDeVida();
-            if (this.pruebasDeVida.length == 0) {
-              this.hayPruebasDeVida = false;
-            }
-          });
         },
       }]
     });
@@ -203,58 +173,31 @@ export class PruebasDeVidaPage implements OnInit {
     });
   }
 
-  obtenerGrupo(idPruebaDeVidaMultiple: number){
-    this.idGrupoSeleccionado = idPruebaDeVidaMultiple;
-    this.pruebaDeVidaService.getPruebaDeVidaByidPruebaDeVidaMultiple(idPruebaDeVidaMultiple).subscribe(res=>{
-      this.pruebasGrupo = [...(res as PruebaDeVida[])]; // Reasignar con un nuevo array
-      this.verificarEstadoDePruebaDeVidaMultiples(this.pruebasGrupo);
-      this.cdr.detectChanges(); // Forzar la detección de cambios
-    });
+  obtenerGrupo(pruebaDeVidaMultiple: PruebaDeVidaMultiple){
+    this.pruebaDeVidaService.getPruebaDeVidaByidPruebaDeVidaMultiple(pruebaDeVidaMultiple.idPruebaDeVidaMultiple).subscribe(res=>{
+      this.pruebasGrupo = res as PruebaDeVida[]; 
+      console.log("🚀 ~ PruebasDeVidaPage ~ this.pruebaDeVidaService.getPruebaDeVidaByidPruebaDeVidaMultiple ~ this.pruebasGrupo:", this.pruebasGrupo)
+  })
   }
-  
 
-  verificarEstadoDePruebaDeVidaMultiples(pruebasDeVida:PruebaDeVida[]){
-    let countAceptadas = 0;
-    let countRechazadas = 0;
-    this.estadoGrupo = 'Pendiente'
-    let idPruebaMultiple = 0
-    pruebasDeVida.forEach(prueba =>{
-      idPruebaMultiple = prueba.idPruebaDeVidaMultiple;
-      if(prueba.estado == 'Aceptada' || prueba.estado == 'AceptadaAutomaticamente')
-        countAceptadas++
-      if(prueba.estado == 'Rechazada' || prueba.estado == 'RechazadaAutomaticamente')
-        countRechazadas++
-    })
-    if(countAceptadas == pruebasDeVida.length)
-      this.estadoGrupo = 'Aceptada'
-    if(countRechazadas > 0)
-      this.estadoGrupo = 'Rechazada'
-
-    this.pruebaDeVidaMultipleService.actualizarEstadoPruebaDeVida(idPruebaMultiple,this.estadoGrupo).subscribe(res=>{})
-  }
 
   getEstadoIcon(estado: string): string {
-    if (estado === 'Rechazada' || estado === 'RechazadaAutomaticamente') {
+    if ('Rechazada' == estado || 'RechazadaAutomaticamente' == estado)
       return 'close-circle';
-    } else if (estado === 'Aceptada' || estado === 'AceptadaAutomaticamente') {
+    if ('Aceptada' == estado || 'AceptadaAutomaticamente' == estado)
       return 'checkmark-circle';
-    } else if (estado === 'Procesando') {
-      return 'hourglass';
-    } else {
-      return 'time';
-    }
+
+    return 'time';
+
   }
-  
+
   getEstadoClass(estado: string): string {
-    if (estado === 'Rechazada' || estado === 'RechazadaAutomaticamente') {
+    if ('Rechazada' == estado || 'RechazadaAutomaticamente' == estado)
       return 'estado-rechazada';
-    } else if (estado === 'Aceptada' || estado === 'AceptadaAutomaticamente') {
+    if ('Aceptada' == estado || 'AceptadaAutomaticamente' == estado)
       return 'estado-exitosa';
-    } else if (estado === 'Procesando') {
-      return 'estado-procesando';
-    } else {
-      return 'estado-pendiente';
-    }
+
+    return 'estado-pendiente';
+
   }
-  
 }

@@ -1,6 +1,6 @@
 export class PruebaDeVida {
 
-    constructor(idPruebaDeVida = 0, fecha = new Date(), descripcion = '', estado = '',idRestriccion = 0, idPersonaRestriccion = 0, accion = ''){
+    constructor(idPruebaDeVida = 0, fecha = new Date(), descripcion = '', estado = '',idRestriccion = 0, idPersonaRestriccion = 0, accion = '',esMultiple = false,idPruebaDeVidaMultiple = 0){
         this.idPruebaDeVida=idPruebaDeVida;
         this.fecha = fecha;
         this.descripcion=descripcion;
@@ -8,6 +8,8 @@ export class PruebaDeVida {
         this.idRestriccion=idRestriccion;
         this.idPersonaRestriccion= idPersonaRestriccion;
         this.accion = accion;
+        this.esMultiple = esMultiple;
+        this.idPruebaDeVidaMultiple =idPruebaDeVidaMultiple;
     }
 
     idPruebaDeVida: number;
@@ -17,4 +19,6 @@ export class PruebaDeVida {
     idRestriccion: number;
     idPersonaRestriccion: number;
     accion: string;
+    esMultiple: boolean;
+    idPruebaDeVidaMultiple: number;
 }

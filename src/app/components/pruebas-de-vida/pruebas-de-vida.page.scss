@@ -26,3 +26,30 @@
     color: green;
   }
   
+  .estado-procesando {
+    color: #7e7e7e; 
+  }
+
+
+.grupo-desplegables{
+  padding: 15px;
+}
+.grupo-desplegables ion-accordion {
+  border-radius: 5px; 
+  margin-bottom: 10px; 
+}
+
+.grupo-desplegables ion-accordion ion-item[slot="header"] {
+  background-color: #fff; 
+}
+
+.grupo-desplegables ion-accordion ion-item[slot="header"]:focus {
+  box-shadow: none; 
+}
+
+.grupo-desplegables .ion-padding {
+  padding: 5px; 
+  background-color: #fff; 
+  border-top: 1px solid #480971; 
+}
+
