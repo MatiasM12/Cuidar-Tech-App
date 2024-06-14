@@ -73,9 +73,7 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
       } else {
         console.error('El objeto data no tiene la estructura esperada para Geoposition:', data);
       }    
-      this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
-        this.lat, this.lon).subscribe(res => {
-        });
+
     });
   }
 

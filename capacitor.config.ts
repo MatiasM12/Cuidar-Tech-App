@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'io.ionic.starter',
+  appId: 'com.cuidar.tech',
+  appName: 'Cuidar Tech',
   webDir: 'www',
   server: {
     androidScheme: 'https'

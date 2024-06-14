@@ -1,5 +1,6 @@
 {
-  "name": "vdgApp",
+  "name": "cuidar-tech", 
+  "displayName": "Cuidar Tech", 
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -21,6 +22,7 @@
     "@angular/platform-browser": "^17.0.2",
     "@angular/platform-browser-dynamic": "^17.0.2",
     "@angular/router": "^17.0.2",
+    "@anuradev/capacitor-background-mode": "^2.0.8",
     "@capacitor-community/background-geolocation": "^1.2.17",
     "@capacitor-community/http": "^1.4.1",
     "@capacitor/android": "^5.7.5",
@@ -31,7 +33,9 @@
     "@capacitor/haptics": "5.0.7",
     "@capacitor/keyboard": "5.0.8",
     "@capacitor/local-notifications": "^6.0.0",
+    "@capacitor/splash-screen": "^6.0.1",
     "@capacitor/status-bar": "5.0.7",
+    "@capawesome-team/capacitor-android-foreground-service": "^6.0.1",
     "@capawesome/capacitor-background-task": "^5.0.0",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@ionic-native/android-permissions": "^5.36.0",
@@ -90,5 +94,10 @@
     "typescript": "~5.2.2",
     "webpack-cli": "^5.1.4"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-foreground-service": {}
+    }
+  }
 }

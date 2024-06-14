@@ -56,7 +56,7 @@ export class PruebasDeVidaPage implements OnInit {
     var emailPersona = localStorage.getItem("emailUsuario");
     await this.showLoader();
     if (emailPersona !== null) {
-      this.pruebaDeVidaService.getPruebasDeVida(emailPersona).subscribe(async pruebasPersona => {
+      this.pruebaDeVidaService.getPruebasDeVidaSimples(emailPersona).subscribe(async pruebasPersona => {
         await this.loadingController.dismiss();
         this.pruebasDeVida = pruebasPersona as PruebaDeVida[];
         this.filtrarPruebasDeVida();
@@ -135,7 +135,8 @@ export class PruebasDeVidaPage implements OnInit {
       quality: 100,
       destinationType: this.camara.DestinationType.DATA_URL,
       encodingType: this.camara.EncodingType.JPEG,
-      mediaType: this.camara.MediaType.PICTURE
+      mediaType: this.camara.MediaType.PICTURE,
+      correctOrientation: true
     }
 
     this.pruebaSeleccionada = pruebaDeVida;

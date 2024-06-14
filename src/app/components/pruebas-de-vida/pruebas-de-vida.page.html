@@ -45,7 +45,7 @@
   </ion-text>
 </ion-content>
 
-<ion-segment color="tertiary" (ionChange)="segmentChanged($event)">
+<ion-segment color="tertiary" [(ngModel)]="filtroTipo" (ionChange)="segmentChanged($event)">
   <ion-segment-button value="Simples" checked>
     Simples
   </ion-segment-button>

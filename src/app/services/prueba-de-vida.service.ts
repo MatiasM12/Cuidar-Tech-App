@@ -14,8 +14,11 @@ export class PruebaDeVidaService {
   constructor(private http: HttpClient) { }
 
   getPruebasDeVida(email: string) {
-    return this.http.get(this.URL_API + "/getByMail/" +
-      email);
+    return this.http.get(this.URL_API + "/getByMail/" + email);
+  }
+
+  getPruebasDeVidaSimples(email: string) {
+    return this.http.get(this.URL_API + "/getSimplesByMail/" + email);
   }
 
   getPruebaDeVidaByidPruebaDeVidaMultiple(idPruebaDeVidaMultiple: number){

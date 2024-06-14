@@ -1,7 +1,13 @@
 {
-  "name": "io.ionic.starter",
+  "name": "Cuidar Tech",
   "integrations": {
-    "capacitor": {},
+    "capacitor": {
+      "plugins": {
+        "CapacitorHttp": {
+          "enabled": true
+        }
+      }
+    },
     "cordova": {}
   },
   "type": "angular"
