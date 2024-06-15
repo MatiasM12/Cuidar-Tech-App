@@ -25,7 +25,8 @@ export class PruebasDeVidaPage implements OnInit {
   pruebasFiltradas: PruebaDeVida[] = [];
   pruebasGrupo: PruebaDeVida[] = [];
   hayPruebasDeVida = true;
-  fotoSacada: any; 
+  hayPruebasDeVidaMultiples = true;
+  fotoSacada: any;
   pruebaSeleccionada: PruebaDeVida;
   usuario: Usuario = new Usuario();
   filtroEstado: string = 'Pendiente';
@@ -42,7 +43,7 @@ export class PruebasDeVidaPage implements OnInit {
     private camara: Camera,
     private fotoPruebaDeVidaService: FotoPruebaDeVidaService,
     private personaService: PersonaService,
-    private cdr: ChangeDetectorRef ,
+    private cdr: ChangeDetectorRef,
     private router: Router) { this.pruebaSeleccionada = new PruebaDeVida(); }
 
   async ngOnInit() {
@@ -58,14 +59,11 @@ export class PruebasDeVidaPage implements OnInit {
     if (emailPersona !== null) {
       this.pruebaDeVidaService.getPruebasDeVidaSimples(emailPersona).subscribe(async pruebasPersona => {
         await this.loadingController.dismiss();
-        this.pruebasDeVida = pruebasPersona as PruebaDeVida[];
+        this.pruebasDeVida = (pruebasPersona as PruebaDeVida[]).reverse();
         this.filtrarPruebasDeVida();
-        if (this.pruebasDeVida.length == 0) {
-          this.hayPruebasDeVida = false;
-        }
+        this.hayPruebasDeVida = this.pruebasDeVida.length > 0; 
       });
     }
-    console.log("email:" + emailPersona);
   }
 
   filtrarPruebasDeVida(event?: any) {
@@ -80,7 +78,7 @@ export class PruebasDeVidaPage implements OnInit {
     } else {
       // Unificar los términos "Rechazada" y "RechazadaAutomaticamente" en "Rechazada"
       // Unificar los términos "Aceptada" y "AceptadaAutomaticamente" en "Aceptada"
-      this.pruebasFiltradas = this.pruebasDeVida.filter(prueba => 
+      this.pruebasFiltradas = this.pruebasDeVida.filter(prueba =>
         prueba.esMultiple === esMultipleFilter &&
         (
           (this.filtroEstado === 'Rechazada' && (prueba.estado === 'Rechazada' || prueba.estado === 'RechazadaAutomaticamente')) ||
@@ -101,24 +99,20 @@ export class PruebasDeVidaPage implements OnInit {
     }
   }
 
-  async cargarPruebasDeVidaMultiples() { 
-    var idPersona = 0
-    await this.personaService.getPersonaByIdUsuario(this.usuario.idUsuario).subscribe(async (res)=>{
-      let persona = res as Persona; 
-      idPersona = persona.idPersona
+  async cargarPruebasDeVidaMultiples() {
+    var idPersona = 0;
+    await this.personaService.getPersonaByIdUsuario(this.usuario.idUsuario).subscribe(async (res) => {
+      let persona = res as Persona;
+      idPersona = persona.idPersona;
       await this.showLoader();
       this.pruebaDeVidaMultipleService.getPruebasDeVidaMultiples(idPersona).subscribe(async pruebasMultiples => {
         await this.loadingController.dismiss();
         this.pruebasDeVidaMultiple = pruebasMultiples as PruebaDeVidaMultiple[];
         this.pruebasDeVidaMultiple.reverse();
         this.filtrarPruebasDeVida();
-        if (this.pruebasDeVida.length == 0) {
-          this.hayPruebasDeVida = false;
-        }
-        
+        this.hayPruebasDeVidaMultiples = this.pruebasDeVidaMultiple.length > 0; // Actualizar aquí
       });
-    })
-    
+    });
   }
 
   responderPruebaDeVida(pruebaDeVida: PruebaDeVida) {
@@ -147,7 +141,6 @@ export class PruebasDeVidaPage implements OnInit {
       console.log("STRING DE FOTO: ");
       await this.enviarFoto();
     }, (err) => {
-      // Handle error
       console.log("Error en la camara: " + err);
     });
   }
@@ -168,7 +161,7 @@ export class PruebasDeVidaPage implements OnInit {
     this.actualizarEstadoPruebaDeVida(this.pruebaSeleccionada)
   }
 
-  async actualizarEstadoPruebaDeVida(pruebaDeVida: PruebaDeVida){
+  async actualizarEstadoPruebaDeVida(pruebaDeVida: PruebaDeVida) {
     await this.pruebaDeVidaService.actualizarEstadoAProcesando(pruebaDeVida).subscribe(res => {
       this.obtenerGrupo(this.idGrupoSeleccionado);
     })
@@ -204,34 +197,33 @@ export class PruebasDeVidaPage implements OnInit {
     });
   }
 
-  obtenerGrupo(idPruebaDeVidaMultiple: number){
+  obtenerGrupo(idPruebaDeVidaMultiple: number) {
     this.idGrupoSeleccionado = idPruebaDeVidaMultiple;
-    this.pruebaDeVidaService.getPruebaDeVidaByidPruebaDeVidaMultiple(idPruebaDeVidaMultiple).subscribe(res=>{
+    this.pruebaDeVidaService.getPruebaDeVidaByidPruebaDeVidaMultiple(idPruebaDeVidaMultiple).subscribe(res => {
       this.pruebasGrupo = [...(res as PruebaDeVida[])]; // Reasignar con un nuevo array
       this.verificarEstadoDePruebaDeVidaMultiples(this.pruebasGrupo);
       this.cdr.detectChanges(); // Forzar la detección de cambios
     });
   }
-  
 
-  verificarEstadoDePruebaDeVidaMultiples(pruebasDeVida:PruebaDeVida[]){
+  verificarEstadoDePruebaDeVidaMultiples(pruebasDeVida: PruebaDeVida[]) {
     let countAceptadas = 0;
     let countRechazadas = 0;
     this.estadoGrupo = 'Pendiente'
     let idPruebaMultiple = 0
-    pruebasDeVida.forEach(prueba =>{
+    pruebasDeVida.forEach(prueba => {
       idPruebaMultiple = prueba.idPruebaDeVidaMultiple;
-      if(prueba.estado == 'Aceptada' || prueba.estado == 'AceptadaAutomaticamente')
+      if (prueba.estado == 'Aceptada' || prueba.estado == 'AceptadaAutomaticamente')
         countAceptadas++
-      if(prueba.estado == 'Rechazada' || prueba.estado == 'RechazadaAutomaticamente')
+      if (prueba.estado == 'Rechazada' || prueba.estado == 'RechazadaAutomaticamente')
         countRechazadas++
     })
-    if(countAceptadas == pruebasDeVida.length)
+    if (countAceptadas == pruebasDeVida.length)
       this.estadoGrupo = 'Aceptada'
-    if(countRechazadas > 0)
+    if (countRechazadas > 0)
       this.estadoGrupo = 'Rechazada'
 
-    this.pruebaDeVidaMultipleService.actualizarEstadoPruebaDeVida(idPruebaMultiple,this.estadoGrupo).subscribe(res=>{})
+    this.pruebaDeVidaMultipleService.actualizarEstadoPruebaDeVida(idPruebaMultiple, this.estadoGrupo).subscribe(res => { })
   }
 
   getEstadoIcon(estado: string): string {
@@ -245,7 +237,7 @@ export class PruebasDeVidaPage implements OnInit {
       return 'time';
     }
   }
-  
+
   getEstadoClass(estado: string): string {
     if (estado === 'Rechazada' || estado === 'RechazadaAutomaticamente') {
       return 'estado-rechazada';
@@ -257,5 +249,5 @@ export class PruebasDeVidaPage implements OnInit {
       return 'estado-pendiente';
     }
   }
-  
+
 }

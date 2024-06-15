@@ -22,6 +22,9 @@
       <ion-label>{{pruebaDeVida.descripcion}}</ion-label>
       <ion-icon [name]="getEstadoIcon(pruebaDeVida.estado)" [class]="getEstadoClass(pruebaDeVida.estado)" slot="end" size="large"></ion-icon>
     </ion-item>
+    <ion-text *ngIf="!hayPruebasDeVida && filtroTipo == 'Simples'" class="mensaje-vacio">
+      No hay solicitudes de prueba de vida disponibles.
+    </ion-text>
   </ion-list>
 
   <ion-accordion-group class="grupo-desplegables" *ngIf="filtroTipo == 'Multiples'">
@@ -38,11 +41,11 @@
           </ion-item>
       </div>
     </ion-accordion>
+    <ion-text *ngIf="!hayPruebasDeVidaMultiples && filtroTipo == 'Multiples'" class="mensaje-vacio">
+      No hay solicitudes de prueba de vida disponibles.
+    </ion-text>
   </ion-accordion-group>
-
-  <ion-text *ngIf="!hayPruebasDeVida">
-    <h3>No hay solicitudes de prueba de vida.</h3>
-  </ion-text>
+  
 </ion-content>
 
 <ion-segment color="tertiary" [(ngModel)]="filtroTipo" (ionChange)="segmentChanged($event)">
