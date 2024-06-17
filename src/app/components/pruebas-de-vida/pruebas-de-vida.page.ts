@@ -209,6 +209,7 @@ export class PruebasDeVidaPage implements OnInit {
   verificarEstadoDePruebaDeVidaMultiples(pruebasDeVida: PruebaDeVida[]) {
     let countAceptadas = 0;
     let countRechazadas = 0;
+    let countSinRespuesta = 0;
     this.estadoGrupo = 'Pendiente'
     let idPruebaMultiple = 0
     pruebasDeVida.forEach(prueba => {
@@ -217,11 +218,15 @@ export class PruebasDeVidaPage implements OnInit {
         countAceptadas++
       if (prueba.estado == 'Rechazada' || prueba.estado == 'RechazadaAutomaticamente')
         countRechazadas++
+      if (prueba.estado == 'SinRespuesta')
+        countSinRespuesta++
     })
     if (countAceptadas == pruebasDeVida.length)
       this.estadoGrupo = 'Aceptada'
     if (countRechazadas > 0)
       this.estadoGrupo = 'Rechazada'
+    if (countSinRespuesta > 0)
+      this.estadoGrupo = 'SinRespuesta'
 
     this.pruebaDeVidaMultipleService.actualizarEstadoPruebaDeVida(idPruebaMultiple, this.estadoGrupo).subscribe(res => { })
   }

@@ -18,7 +18,7 @@ export class PruebaDeVidaMultipleService {
   }
 
   getPruebasDeVidaMultiples(idPersona:number){
-    return this.http.get(this.URL_API+'/getAll/'+idPersona);
+    return this.http.get(this.URL_API+'/getAllApp/'+idPersona);
   }
 
   actualizarEstadoPruebaDeVida(idPruebaDeVida: number, nuevoEstado: string){
