@@ -8,6 +8,10 @@ import { PickerController } from '@ionic/angular';
 import { ContactoService } from 'src/app/services/contacto.service';
 import { Storage } from '@ionic/storage';
 import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { PersonaService } from 'src/app/services/persona.service';
+import { Usuario } from 'src/app/models/usuario';
+import { Persona } from 'src/app/models/persona';
 
 @Component({
   selector: 'app-agregar-contacto',
@@ -21,7 +25,8 @@ export class AgregarContactoPage implements OnInit {
 
   constructor(private toastController: ToastController, public loadingController: LoadingController,
     private router: Router, public pickerCtrl: PickerController, private contactoService: ContactoService,
-    private storage: Storage, private comunicacionService: ComunicacionService) { }
+    private storage: Storage, private comunicacionService: ComunicacionService, private usuarioService: UsuarioService,
+    private personaService: PersonaService) { }
 
   ngOnInit() {
     let contacto = this.comunicacionService.contacto;
@@ -40,16 +45,24 @@ export class AgregarContactoPage implements OnInit {
       this.contacto.email = contactoForm.value.email;
       this.contacto.telefono = contactoForm.value.telefono;
       this.contacto.relacion = contactoForm.value.relacion;
-      this.contacto.idDamnificada = 2;
-      this.contactoService.postContacto(this.contacto)
-        .subscribe(res => {
-          this.loadingController.dismiss();
-          this.presentToast('Contacto agregado correctamente.');
-          contactoForm.reset();
-          this.router.navigate(["/gestionar-contactos"]);
-          this.contacto = new Contacto;
-          this.comunicacionService.contacto = new Contacto;
-        });
+      this.storage.get("persona").then( email =>{
+        this.usuarioService.getByEmail(email).subscribe( res =>{
+          let usuario = res as Usuario
+          this.personaService.getPersonaByIdUsuario(usuario.idUsuario).subscribe(res=>{
+            this.contacto.idDamnificada = (res as Persona).idPersona;
+            this.contactoService.postContacto(this.contacto)
+              .subscribe(res => {
+                this.loadingController.dismiss();
+                this.presentToast('Contacto agregado correctamente.');
+                contactoForm.reset();
+                this.router.navigate(["/gestionar-contactos"]);
+                this.contacto = new Contacto;
+                this.comunicacionService.contacto = new Contacto;
+              });
+          })
+        })
+      })
+    
     }
   }
 

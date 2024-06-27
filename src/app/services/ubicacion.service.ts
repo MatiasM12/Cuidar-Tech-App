@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UbicacionDTO } from '../models/ubicacion-dto';
 import { environment } from '../../environments/environment';
-import { of } from 'rxjs';
 import { CapacitorHttp } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UbicacionService {
 
   readonly URL_API = environment.apiUrl+'Ubicacion';

@@ -19,7 +19,7 @@ export class UsuarioService {
   }
 
   getByEmail(email: string) {
-    return this.http.get(this.URL_API+/GetByEmail/+email);
+    return this.http.get(this.URL_API+"/GetByEmail/"+email);
   }
 
   login(email: string, contrasena: string) {
@@ -35,7 +35,6 @@ export class UsuarioService {
       data: JSON.stringify(loginInfo) 
     };
     
-    console.log("🚀 ~ UsuarioService ~ login ~ loginInfo:", loginInfo.email, loginInfo.contrasena)
     return CapacitorHttp.post(options);
   }
 

@@ -82,7 +82,7 @@ export class AppComponent {
     this.latitud = location.coords.latitude;
     this.longitud = location.coords.longitude;
 
-    this.ubicacionService.postUbicacion(this.email!,this.latitud,this.latitud);
+    this.ubicacionService.postUbicacion(this.email!,this.latitud,this.longitud);
   }
 
 

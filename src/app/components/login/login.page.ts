@@ -49,7 +49,6 @@ export class LoginPage implements OnInit {
       var mail = usuarioForm.value.email;
       var contrasena = sha256.sha256(usuarioForm.value.password);
       await this.showLoader();
-      console.log("entre");
       
       await this.usuarioService.login(mail, contrasena)
         .then(async rolUsuario => {
@@ -65,7 +64,6 @@ export class LoginPage implements OnInit {
             await this.comunicacion.enviarEmailUsuario(mail);
           }
           else if (this.usuarioStorage.rolDeUsuario == "DAMNIFICADA") {
-            console.log("🚀 ~ LoginPage ~ ingresar ~ rolUsuario:", this.usuarioStorage.rolDeUsuario)
             this.router.navigate(["/home-damnificada"]);
             await localStorage.setItem('emailUsuario', mail);
             await localStorage.setItem('rolUsuario', "DAMNIFICADA")

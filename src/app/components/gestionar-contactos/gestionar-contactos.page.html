@@ -7,9 +7,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content color="light">
+<ion-content>
   <ion-list [inset]="true" *ngFor="let contacto of contactos" (click)="presentAlertConfirm(contacto)">
-    <ion-item [button]="true" >
+    <ion-item [button]="true">
       <ion-icon name="person" class="icon" slot="start" size="large"></ion-icon>
       <ion-label>{{contacto.apellido}}, {{contacto.nombre}}</ion-label>
     </ion-item>

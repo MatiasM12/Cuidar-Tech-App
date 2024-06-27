@@ -1,10 +1,39 @@
-.icon{
-    color: #480971;
-}
 .custom-toolbar {
     background-color: #480971;
     color: white;
-    height: 60px;
-    display: flex;
-    align-items: center;
-  }
+}
+
+form {
+    padding: 10px;
+}
+
+ion-item ion-icon.icon {
+    background-color: #480971;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+ion-item {
+    --padding-start: 15px;
+    --inner-padding-end: 15px;
+    --inner-padding-bottom: 10px;
+}
+
+ion-item ion-label {
+    font-weight: bold;
+    color: #333;
+}
+
+ion-item ion-input {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+ion-button {
+    --background: #480971;
+    --color: white;
+    --border-radius: 20px;
+    --padding-start: 30px;
+    --padding-end: 30px;
+}
