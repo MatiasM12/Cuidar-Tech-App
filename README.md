@@ -1,8 +1,8 @@
 # VDGApp 📲
 
-## Instrucciones para correr el código
+## Instrucciones para correr el código 👨‍🏫
 
-### Para correr en el navegador
+### Para correr en el navegador 💻
 
 1. Primero, asegúrate de tener Node.js y npm instalados en tu sistema. Puedes descargarlos desde [nodejs.org](https://nodejs.org/).
 
@@ -43,7 +43,7 @@
    
   Esto abrira una pestaña nueva en tu navegador predeterminado. Hay que tener en cuenta que debemos tener versiones de java y gradle compatibles, junto a sus variables de entorno configuradas correctamente (JAVA_HOME y GRADLE_HOME)
    
-### Para correr en un emulador android
+### Para correr en un emulador android 📱
 
 1. Instalar andorid studio:
   https://developer.android.com/studio?hl=es-419
@@ -83,6 +83,25 @@
     Luego de esos comandos se deberia agregar una carpeta llamada android a nuestro proyecto
    
      ![image](https://github.com/MatiasM12/VdgApp/assets/86579814/86789634-bd19-4653-abb2-ec3ea486b020)
+      
+    -Para asegurar el funcionamiento adecuado de nuestra aplicación Android, es crucial verificar y configurar correctamente los permisos en el archivo `AndroidManifest.xml`. Este archivo se encuentra en la ruta `android/app/src/main/AndroidManifest.xml` de nuestro proyecto.
+      ```java
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+        <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+        <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+        <uses-permission android:name="android.permission.WAKE_LOCK" />
+        <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+        <uses-permission android:name="android.Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZACIONES" />
+        <uses-feature android:name="android.hardware.location.gps" />
+        <uses-feature android:name="android.hardware.camera" />
+        <uses-feature android:name="android.hardware.camera.autofocus" />
+        <uses-feature android:name="android.hardware.camera2" />
+     ```
 
 6. Configuracion de la ip local: para que nuestra app se pueda comunicar con el backend debemos tener configurada correctamente la ip y puerto local en `environments/environment.ts`. para saber cual es la ip, en windows podemos correr el comando ipconfig y en linux tenemos ifconfig
 
@@ -127,48 +146,57 @@
 
   Si realizamos cambios en el codigo no hace falta volver a correr el comando, este se vuelva a complilar cuando guardamos nuevos cambios.
    
-## Acceso a la aplicación
+## Acceso a la aplicación 👤
 
 Después de iniciar el servidor, la aplicación se desplegará en tu navegador predeterminado o en tu dispositivo. A partir de ahí, puedes acceder a la funcionalidad de inicio de sesión.
 
 Para iniciar sesión, necesitarás credenciales válidas. Algunos usuarios válidos son:
 
-- **Usuario Victima**: 
+- **Usuario Damnificada**: 
   - Correo electrónico: visctima1@victima1.com
   - Contraseña: *Nota: Las contraseñas están hasheadas, se debe recuperar una nueva contraseña.*
 
-- **Usuario Agresor**: 
+- **Usuario Victimario**: 
   - Correo electrónico: agresor1@agresor1.com
   - Contraseña: *Nota: Las contraseñas están hasheadas, se debe recuperar una nueva contraseña.*
 
-## Recuperación de Contraseña
+## Recuperación de Contraseña 🔒
 
 Para restablecer una contraseña, sigue uno de estos métodos:
 
 1. **A través de la interfaz de usuario*: 
+   - Ingresa a la app.
+   - Ingresa tu correo electrónico.
+   - Haz clic en "Olvidé mi contraseña".
+   - Confirma la solicitud
+   - Recibirás una nueva contraseña en el correo electrónico asociado (`pp2proyectoviolenciagenero@gmail.com`). O si estás desarrollando y tienes acceso al backend, puedes recuperar una nueva contraseña por la consola del servidor.
+  
+     ![image-removebg-preview (1)](https://github.com/MatiasM12/VdgApp/assets/86579814/0602e1b6-8e2a-4e4e-9bbb-5126180ea576)
+
+2. **A través de la interfaz de usuario web*: 
    - Visita la página web de VDGApp.
    - Haz clic en "Olvidé mi contraseña".
    - Ingresa tu correo electrónico.
-   - Recibirás una nueva contraseña en el correo electrónico asociado (`pp2proyectoviolenciagenero@gmail.com`).
+   - Recibirás una nueva contraseña en el correo electrónico asociado (`pp2proyectoviolenciagenero@gmail.com`). O si estás desarrollando y tienes acceso al backend, puedes recuperar una nueva contraseña por la consola del servidor.
+  
+     ![image](https://github.com/Nicolas2k19/PP2Frontend/assets/86579814/91cd1045-7755-425b-82de-fea141545413)
 
-2. **A través de la consola del backend**:
-   - Visita la página web de VDGApp.
-   - Haz clic en "Olvidé mi contraseña".
-   - Si estás desarrollando y tienes acceso al backend, puedes recuperar una nueva contraseña por la consola del servidor.
-
-## Roles de Usuario
+## Roles de Usuario 👤
 
 VDGApp tiene dos roles de usuario principales con interfaces diferentes como se muestra a continuacion:
 
-- **Victima**: Este rol representa a las víctimas de la violencia de género.
+- **Damnificada**: Este rol representa a las víctimas de la violencia de género.
+
+  ![image-removebg-preview_(5)-fxLW3yXoy-transformed](https://github.com/MatiasM12/VdgApp/assets/86579814/67c379e2-e0ae-4eaa-99fb-774011d6f594)
   
-  ![image](https://github.com/MatiasM12/VdgApp/assets/86579814/d20a9b34-9aa7-48e1-a224-4be28653d826)![image](https://github.com/MatiasM12/VdgApp/assets/86579814/7b5b5c3f-9d65-4f8c-82f9-f1d3b1a69ae3)
 
+- **Victimario**: Este rol representa a los agresores.
 
-- **Agresor**: Este rol representa a los agresores.
-  
-  ![image](https://github.com/MatiasM12/VdgApp/assets/86579814/c9c10df7-6652-4bf8-b6d4-696d2ad0e17c)![image](https://github.com/MatiasM12/VdgApp/assets/86579814/31948517-6ac2-4b90-ab63-f91dbeb53f1d)
+  ![image-removebg-preview_(6)-bKr94wGb7-transformed](https://github.com/MatiasM12/VdgApp/assets/86579814/5578613e-d9c2-4eb8-a754-d48864c5b77f)
 
+## Manual de usuario 📕
+
+Para obtener una guia detallada de como funciona el sistema porfavopr leea el manual de usuario que subimos a esta repositorio.
 
 
 
