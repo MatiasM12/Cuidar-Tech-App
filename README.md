@@ -2,6 +2,22 @@
 
 Cuidar Tech es un proyecto dedicado a la prevención de la violencia de género mediante el monitoreo de restricciones perimetrales. Este proyecto se basa en la continuación del proyecto original desarrollado por la Universidad Nacional de General Sarmiento (UNGS), que puedes encontrar [aquí](https://www.ungs.edu.ar/new/cuidar-tech-una-posible-solucion-tecnologica-para-intervenir-en-casos-de-violencia-domestica-contra-las-mujeres). En esta nueva fase, hemos implementado dos funcionalidades clave: pruebas de vida automáticas y predicción de rutinas para prevenir violaciones de restricciones perimetrales. Ademas de que implementamos otras mejores tanto esteticas como funcionales. Este es el repositorio que contiene el frontend del proyecto, podes econtrar el backend [aquí](https://github.com/MatiasM12/Cuidar-Tech-Backend) y el respositorio del frontend [aqui](https://github.com/MatiasM12/Cuidar-Tech-Frontend).
 
+## Funcionalidades de la aplicación ⚙️
+
+### Para la damnificada:
+
+- Visualizar la ubicación de victimarios en caso de infracción de una restricción.
+- Gestionar contactos (agregar, editar y eliminar contactos).
+- Recibir y realizar pruebas de vida, además de poder ver los resultados de las mismas.
+- Ver comisarías cercanas y poder ubicarlas en Google Maps.
+- Ver notificaciones enviadas por los administrativos.
+- Botón de pánico que, al presionarlo, envía una alerta a los contactos y a la comisaría más cercana.
+
+### Para el victimario:
+
+- Recibir y realizar pruebas de vida, además de poder ver los resultados de las mismas.
+- Ver las notificaciones que le lleguen.
+
 ## Instrucciones para correr el código 👨‍🏫
 
 ### Para correr en el navegador 💻
