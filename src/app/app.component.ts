@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@capacitor/status-bar';
 import { BackgroundMode } from '@anuradev/capacitor-background-mode';
 import { ComunicacionService } from './services/comunicacion/comunicacion.service';
 import { UbicacionService } from './services/ubicacion.service';
 import { Storage } from '@ionic/storage-angular';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss']
 })
+
 export class AppComponent {
   constructor(
     private platform: Platform,
@@ -42,14 +41,13 @@ export class AppComponent {
       BackgroundMode.disableWebViewOptimizations();
       BackgroundMode.setSettings({
         title: "Cuidar tech en segundo plano",
-        text: "La aplicacion esta usando la ubicacion en segundo plano, porfavor no cierre la app", 
-        resume:true,
-        hidden: false, 
+        text: "La aplicacion esta usando la ubicacion en segundo plano, porfavor no cierre la app",
+        resume: true,
+        hidden: false,
         bigText: true,
         color: "480971",
       })
       BackgroundMode.enable().then(() => {
-        console.log("Background activado");
         BackgroundMode.disableWebViewOptimizations();
         Geolocation.getCurrentPosition().then((resp) => {
           setInterval(() => console.log("Se esta obteniendo la ubicacion correctamente"), 10000);
@@ -76,22 +74,12 @@ export class AppComponent {
   }
 
   async enviarUbicacion() {
-    console.log("AHORA ENVIO LA UBICACION");
 
     let location = await Geolocation.getCurrentPosition();
     this.latitud = location.coords.latitude;
     this.longitud = location.coords.longitude;
 
-    this.ubicacionService.postUbicacion(this.email!,this.latitud,this.longitud);
+    this.ubicacionService.postUbicacion(this.email!, this.latitud, this.longitud);
   }
 
-
-
-
-
-
 }
-
-
-
-

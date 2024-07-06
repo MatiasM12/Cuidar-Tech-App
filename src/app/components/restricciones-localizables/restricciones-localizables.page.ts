@@ -24,16 +24,14 @@ export class RestriccionesLocalizablesPage implements OnInit {
   }
 
   cargarRestricciones() {
-    let emailUsuario =localStorage.getItem("emailUsuario")
-    //this.showLoader();
-    if(emailUsuario != null)
-    this.restriccionService.getRestricciones(emailUsuario)
-      .subscribe(res => {
-        this.restricciones = res as RestriccionDTO[];
-        if(this.restricciones.length == 0)
-          this.hayRestricciones = false;
-        //this.loadingController.dismiss();
-      });
+    let emailUsuario = localStorage.getItem("emailUsuario")
+    if (emailUsuario != null)
+      this.restriccionService.getRestricciones(emailUsuario)
+        .subscribe(res => {
+          this.restricciones = res as RestriccionDTO[];
+          if (this.restricciones.length == 0)
+            this.hayRestricciones = false;
+        });
   }
 
   showLoader() {
@@ -46,7 +44,6 @@ export class RestriccionesLocalizablesPage implements OnInit {
 
   seleccionarRestriccion(restriccion: RestriccionDTO) {
     this.comunicacion.enviarRestriccion(restriccion);
-    //this.mostrarRestriccion();
     let thisjr = this;
     //IF PUEDO LOCALIZARLO
     this.router.navigate(["/localizacion-victimario"]);

@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Contacto } from '../models/contacto';
 import { environment } from '../../environments/environment';
 
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class ContactoService {
 
   readonly URL_API = environment.apiUrl+'Contacto';

@@ -1,5 +1,5 @@
 ion-content.login-content {
-  --ion-background-color: #ffffff; 
+  --ion-background-color: #ffffff;
 }
 
 .login-container {
@@ -7,29 +7,28 @@ ion-content.login-content {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px; 
+  padding: 20px;
 }
 
 h2 {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 50px; 
-  background-color: #f8f8f8; 
-
+  margin-bottom: 50px;
+  background-color: #f8f8f8;
 }
 
 .login-form {
   width: 100%;
   border-radius: 8px;
-  background-color: #f8f8f8; 
-  padding: 30px; 
+  background-color: #f8f8f8;
+  padding: 30px;
 }
 
 .input-item {
   --padding-start: 0;
   --padding-end: 0;
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
 }
 
 .custom-input {

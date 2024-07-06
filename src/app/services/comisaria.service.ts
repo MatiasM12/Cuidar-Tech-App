@@ -15,6 +15,4 @@ export class ComisariaService {
     return this.http.get(this.URL_API + '/ObtenerComisarias' );
   }
 
-  
-
 }

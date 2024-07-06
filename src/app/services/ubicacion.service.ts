@@ -16,7 +16,6 @@ export class UbicacionService {
 
   postUbicacion(email: string, latitud: number | undefined, longitud: number | undefined) {
     if (latitud === undefined || longitud === undefined) {
-      // Manejar el caso en el que latitud o longitud son undefined
       console.error('Latitud o longitud son undefined');  
     }
     
@@ -31,10 +30,6 @@ export class UbicacionService {
         longitud: longitud
       }
     };
-
-    
-    console.log("HAGO EL POST lat: " + latitud + "    lon: " + longitud + "   email: " + email);
-    console.log(this.http.post(this.URL_API + "/postUbi/" + email, options));
     return CapacitorHttp.post(options);
   }
   

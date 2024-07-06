@@ -7,7 +7,7 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import VectorSource from 'ol/source/Vector';
 import { Vector as VectorLayer } from 'ol/layer';
-import { Icon, Style, Stroke, Fill } from 'ol/style';
+import { Icon, Style, Fill } from 'ol/style';
 import { Circle } from 'ol/geom';
 import { fromLonLat } from 'ol/proj';
 import { UbicacionService } from '../services/ubicacion.service';
@@ -22,7 +22,7 @@ import TileSource from 'ol/source/Tile'; // Importa la clase TileSource
   styleUrls: ['./localizacion-victimario.page.scss'],
 })
 export class LocalizacionVictimarioPage implements OnInit {
- 
+
   // Variables para el mapa
   map: OlMap = new OlMap(); // Inicializando las propiedades en el constructor
   mapSource: OlXYZ = new OlXYZ();
@@ -75,11 +75,11 @@ export class LocalizacionVictimarioPage implements OnInit {
 
     setTimeout(() => {
       this.map.updateSize();
-    }, 500);    
+    }, 500);
   }
 
-  
-  
+
+
 
   mostrarRestriccion() {
     var markerVictimario: Feature;
@@ -120,7 +120,7 @@ export class LocalizacionVictimarioPage implements OnInit {
           // Dibujamos el círculo y aplicamos el estilo
           perimetro = new Feature();
           var forma = new Circle(fromLonLat([this.ubicacionDamnificada.longitud, this.ubicacionDamnificada.latitud]));
-          
+
           // Verificamos si la distancia es nula antes de establecer el radio del círculo
           if (restriccionDTO.restriccion.distancia !== null && restriccionDTO.restriccion.distancia !== undefined) {
             forma.setRadius(restriccionDTO.restriccion.distancia);
@@ -160,30 +160,30 @@ export class LocalizacionVictimarioPage implements OnInit {
     // Pinto el perímetro dependiendo si infringe o no
     const style = new Style({ fill: new Fill({}) });
     let restriccionDTO = this.comunicacion.restriccionDTO;
-    if(restriccionDTO !== null)
-    this.ubicacionService.getEstaInfringiendo(restriccionDTO.restriccion.idRestriccion, this.ubicacionDto)
-      .subscribe(res => {
-        const estaInfringiendo = res as boolean;
-        if (estaInfringiendo) {
-          const fill = style.getFill();
-          if (fill !== null) {
-            fill.setColor([255, 0, 0, .4]);
-            perimetro.setStyle(style);
+    if (restriccionDTO !== null)
+      this.ubicacionService.getEstaInfringiendo(restriccionDTO.restriccion.idRestriccion, this.ubicacionDto)
+        .subscribe(res => {
+          const estaInfringiendo = res as boolean;
+          if (estaInfringiendo) {
+            const fill = style.getFill();
+            if (fill !== null) {
+              fill.setColor([255, 0, 0, .4]);
+              perimetro.setStyle(style);
+            } else {
+              console.error("El objeto Fill es nulo");
+            }
           } else {
-            console.error("El objeto Fill es nulo");
+            const fill = style.getFill();
+            if (fill !== null) {
+              fill.setColor([0, 255, 0, .4]);
+              perimetro.setStyle(style);
+            } else {
+              console.error("El objeto Fill es nulo");
+            }
           }
-        } else {
-          const fill = style.getFill();
-          if (fill !== null) {
-            fill.setColor([0, 255, 0, .4]);
-            perimetro.setStyle(style);
-          } else {
-            console.error("El objeto Fill es nulo");
-          }
-        }
-      });
+        });
   }
-  
+
 
 
 

@@ -33,17 +33,16 @@ export class NotificacionesPage implements OnInit {
     if (emailUsuario !== null) {
       this.notificacionService.getNoificaciones(emailUsuario)
         .subscribe(res => {
-          console.log(res);
           this.notificaciones = res as Notificacion[];
           this.notificaciones.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-          
+
           // Filtrar las notificaciones según el estado seleccionado
-          if(this.filtroEstado != 'Todas')
+          if (this.filtroEstado != 'Todas')
             this.notificaciones = this.notificaciones.filter(notif => notif.estado === this.filtroEstado);
         });
     }
   }
-  
+
 
   async verNotificacion(notificacion: Notificacion) {
     const alert = await this.alertController.create({

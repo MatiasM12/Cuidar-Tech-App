@@ -1,48 +1,48 @@
-.icon{
+.icon {
   background-color: #480971;
 }
+
 .custom-toolbar {
   background-color: #480971;
   color: white;
   height: 60px;
   display: flex;
   align-items: center;
-  flex-direction: row; 
+  flex-direction: row;
 }
 
 .card-header {
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .header-image {
-    width: 150px; 
-    height: 150px; 
-    margin-top: -10px;
-    margin-bottom: 15px;
-    text-align: center;
-  }
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .card-content {
-    padding: 10px;
-  }
-  
-  .info-item {
-    margin-bottom: 8px;
-  }
-  
-  .info-item strong {
-    font-weight: bold;
-    margin-right: 5px;
-  }
-  
-  .google-maps-btn {
-    margin-top: 30px;
-    background-color: #480971;
-  }
-  
+.header-image {
+  width: 150px;
+  height: 150px;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.card-content {
+  padding: 10px;
+}
+
+.info-item {
+  margin-bottom: 8px;
+}
+
+.info-item strong {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.google-maps-btn {
+  margin-top: 30px;
+  background-color: #480971;
+}

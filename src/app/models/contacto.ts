@@ -1,4 +1,3 @@
-//import { Ubicacion } from './ubicacion';
 
 export class Contacto {
 

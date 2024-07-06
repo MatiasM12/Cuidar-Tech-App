@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content color="light">
-  <ion-list [inset]="true"  *ngFor="let restriccion of restricciones" (click)=seleccionarRestriccion(restriccion)>
+  <ion-list [inset]="true" *ngFor="let restriccion of restricciones" (click)=seleccionarRestriccion(restriccion)>
     <ion-item [button]="true">
       <ion-icon name="eye" class="icon" slot="start" size="large"></ion-icon>
       <ion-label>{{restriccion.victimario.apellido+", "+ restriccion.victimario.nombre}}</ion-label>

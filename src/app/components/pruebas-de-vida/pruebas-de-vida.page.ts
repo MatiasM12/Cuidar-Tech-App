@@ -61,7 +61,7 @@ export class PruebasDeVidaPage implements OnInit {
         await this.loadingController.dismiss();
         this.pruebasDeVida = (pruebasPersona as PruebaDeVida[]).reverse();
         this.filtrarPruebasDeVida();
-        this.hayPruebasDeVida = this.pruebasDeVida.length > 0; 
+        this.hayPruebasDeVida = this.pruebasDeVida.length > 0;
       });
     }
   }
@@ -134,11 +134,8 @@ export class PruebasDeVidaPage implements OnInit {
     }
 
     this.pruebaSeleccionada = pruebaDeVida;
-    console.log("Saco foto");
     this.camara.getPicture(options).then(async (imageData) => {
-      console.log("SAQUE FOTO");
       this.fotoSacada = 'data:image/jpg;base64,' + imageData;
-      console.log("STRING DE FOTO: ");
       await this.enviarFoto();
     }, (err) => {
       console.log("Error en la camara: " + err);
@@ -146,18 +143,14 @@ export class PruebasDeVidaPage implements OnInit {
   }
 
   async enviarFoto() {
-    console.log("Envio la foto");
 
     this.fotoPruebaDeVidaService.postFotoPruebaDeVida(this.pruebaSeleccionada.idPruebaDeVida, this.fotoSacada, this.pruebaSeleccionada.accion, this.usuario.idUsuario, this.pruebaSeleccionada.idPersonaRestriccion).subscribe(async (res: any) => {
-      console.log(this.fotoSacada);
-      console.log("PRUEBA ENVIADA");
     }, async error => {
       // En caso de error al enviar la foto
       console.error('Error al enviar la foto:', error);
     });
 
     await this.showAlert('Se está validando la prueba', "Se notificará el resultado cuando este listo", '/pruebas-de-vida');
-    console.log("EL ID A RESPONDER ES EL: " + this.pruebaSeleccionada.idPruebaDeVida);
     this.actualizarEstadoPruebaDeVida(this.pruebaSeleccionada)
   }
 

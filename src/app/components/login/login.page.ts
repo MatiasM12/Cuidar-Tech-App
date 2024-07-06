@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Usuario } from 'src/app/models/usuario';
 import { NgForm } from '@angular/forms';
-import * as sha256 from 'js-sha256'; 
+import * as sha256 from 'js-sha256';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { ComunicacionService } from 'src/app/services/comunicacion/comunicacion.service';
- 
+
 @Component({
-  selector: 'app-login', 
+  selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
@@ -26,30 +26,29 @@ export class LoginPage implements OnInit {
 
   constructor(private usuarioService: UsuarioService, private router: Router,
     public loadingController: LoadingController, public toastController: ToastController,
-    private storage: Storage, private platform: Platform, private comunicacion: ComunicacionService)
-  { }
+    private storage: Storage, private platform: Platform, private comunicacion: ComunicacionService) { }
 
   async ngOnInit() {
-            if(localStorage.getItem('emailUsuario') != ''){
-              const emailUsuario = localStorage.getItem('emailUsuario');
-              if (emailUsuario !== null) 
-                await this.comunicacion.enviarEmailUsuario(emailUsuario);
-              if(localStorage.getItem('rolUsuario')=="DAMNIFICADA"){
-                this.router.navigate(["/home-damnificada"]);
-              }
-              else{
-                this.router.navigate(["/home-victimario"]);
-              }
-            }
-            await this.storage.create();
-   }
+    if (localStorage.getItem('emailUsuario') != '') {
+      const emailUsuario = localStorage.getItem('emailUsuario');
+      if (emailUsuario !== null)
+        await this.comunicacion.enviarEmailUsuario(emailUsuario);
+      if (localStorage.getItem('rolUsuario') == "DAMNIFICADA") {
+        this.router.navigate(["/home-damnificada"]);
+      }
+      else {
+        this.router.navigate(["/home-victimario"]);
+      }
+    }
+    await this.storage.create();
+  }
 
-   async ingresar(usuarioForm: NgForm) {
+  async ingresar(usuarioForm: NgForm) {
     if (usuarioForm.valid) {
       var mail = usuarioForm.value.email;
       var contrasena = sha256.sha256(usuarioForm.value.password);
       await this.showLoader();
-      
+
       await this.usuarioService.login(mail, contrasena)
         .then(async rolUsuario => {
           await this.loadingController.dismiss();
@@ -80,7 +79,7 @@ export class LoginPage implements OnInit {
     this.loaderToShow = await this.loadingController.create({
       message: 'Iniciando sesión'
     }).then(async (res) => {
-       await res.present();
+      await res.present();
     });
   }
 
@@ -106,11 +105,9 @@ export class LoginPage implements OnInit {
 
   async setUsuario(email: string) {
     await this.storage.set('persona', email);
-  } 
+  }
 
   recuperarContrasena() {
-    console.log("recupera la contraseña");
-    
     if (this.mail != "") {
       let usuario = new Usuario;
       usuario.email = this.mail;
@@ -118,11 +115,10 @@ export class LoginPage implements OnInit {
       if (confirm("Una nueva contraseña se enviará al email ingresado. ¿Desea continuar?")) {
         this.usuarioService.recuperarContrasena(usuario)
           .subscribe(res => {
-            console.log("Contraseña recuuperad con exito"+res);
             this.cambioDeContrasenaExitoso();
           });
       }
-    }else{
+    } else {
       alert("Ingrese un email")
     }
   }

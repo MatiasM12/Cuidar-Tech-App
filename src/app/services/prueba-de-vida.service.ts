@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { PruebaDeVida } from '../models/prueba-de-vida';
 
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class PruebaDeVidaService {
 
   readonly URL_API = environment.apiUrl+"PruebaDeVida";

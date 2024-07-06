@@ -19,16 +19,16 @@ import { Usuario } from 'src/app/models/usuario';
 export class HomeDamnificadaPage implements OnInit {
 
   lat: number;
-  lon: number; 
-  notificationCount: number = 0; 
+  lon: number;
+  notificationCount: number = 0;
   //Back button
   subscribe: any;
 
-constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService,
+  constructor(public geolocation: Geolocation, private ubicacionService: UbicacionService,
     private router: Router, private botonAntipanicoService: BotonAntipanicoService,
     private storage: Storage, public loadingController: LoadingController,
     private toastController: ToastController, private comunicacion: ComunicacionService,
-    private alertController: AlertController, private platform: Platform, private notifactionService:NotificacionService) {
+    private alertController: AlertController, private platform: Platform, private notifactionService: NotificacionService) {
     this.lat = 0; // Inicializando latitud con un valor por defecto
     this.lon = 0; // Inicializando longitud con un valor por defecto
   }
@@ -41,22 +41,20 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
     this.getNotificationCount();
   }
 
-  getNotificationCount(){
+  getNotificationCount() {
     this.storage.get('persona').then(async (email) => {
-      this.notifactionService.getCantidadNoVistas(email).subscribe( res => {
+      this.notifactionService.getCantidadNoVistas(email).subscribe(res => {
         this.notificationCount = res as number
-     });})
+      });
+    })
   }
 
 
   getGeolocation() {
-    console.log("ME PIDIO POSITION");
     this.geolocation.getCurrentPosition().then((geoposition: Geoposition) => {
       this.lat = geoposition.coords.latitude;
       this.lon = geoposition.coords.longitude;
-      this.ubicacionService.getUbicacionesRestriccion(1).subscribe(res => {console.log(res);});
-      console.log("TENGO LAS COORD");
-      console.log("LAT " + this.lat);
+      this.ubicacionService.getUbicacionesRestriccion(1).subscribe(res => {});
       this.ubicacionService.postUbicacion(this.comunicacion.emailUsuario,
         this.lat, this.lon);
     });
@@ -68,11 +66,9 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
       if ('coords' in data && 'timestamp' in data) {
         this.lat = data.coords.latitude;
         this.lon = data.coords.longitude;
-        console.log(data.coords);
-        
       } else {
         console.error('El objeto data no tiene la estructura esperada para Geoposition:', data);
-      }    
+      }
 
     });
   }
@@ -90,10 +86,10 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
 
     await this.showLoader("Enviando alerta a comisarias y contactos...");
 
-    await this.botonAntipanicoService.alertarPolicia(this.lat,this.lon,1)
-        .subscribe(res => {
-          this.loadingController.dismiss();
-    })
+    await this.botonAntipanicoService.alertarPolicia(this.lat, this.lon, 1)
+      .subscribe(res => {
+        this.loadingController.dismiss();
+      })
 
 
     await this.storage.get('persona').then(async (email) => {
@@ -165,12 +161,10 @@ constructor(public geolocation: Geolocation, private ubicacionService: Ubicacion
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Cancelar');
           }
         }, {
           text: 'Aceptar',
           handler: () => {
-            console.log('Aceptar');
             // Realizar el cierre de sesión
             localStorage.setItem('emailUsuario', '');
             this.storage.set('usuario', new Usuario());

@@ -74,7 +74,7 @@ export class LocalizacionComisariasPagePage implements OnInit {
 
     // Escuchar el evento de cambio de resolución (zoom)
     this.map.getView().on('change:resolution', () => {
-       this.mostarNombreComisaria();
+      this.mostarNombreComisaria();
     });
 
     setTimeout(() => {
@@ -108,21 +108,20 @@ export class LocalizacionComisariasPagePage implements OnInit {
       this.comisarias.forEach(comisaria => {
         lon = +comisaria.coordenadaX;
         lat = +comisaria.coordenadaY;
-        console.log(lat, lon);
 
         // Marco las ubicaciones en el mapa
         markerComisaria = new Feature({
           geometry: new Point(fromLonLat([lat, lon]))
         });
 
-        if(comisaria.tipo == "MUJER"){
+        if (comisaria.tipo == "MUJER") {
           markerComisaria.setStyle(new Style({
             image: new Icon({
               src: '../../../assets/markerComisariaDeLaMujer.png',
               size: [60, 60] // Tamaño de la imagen del icono
             })
           }));
-        }else{
+        } else {
           markerComisaria.setStyle(new Style({
             image: new Icon({
               src: '../../../assets/markerComisaria.png',
@@ -130,8 +129,6 @@ export class LocalizacionComisariasPagePage implements OnInit {
             })
           }));
         }
-       
-
 
         // Agregar información debajo del marcador
         var content = `<div style="font-size: 12px; text-align: center;"><strong style="color: blue;"></strong> <span style="font-weight: bold;">${comisaria.nombre}</span></div>` +
@@ -167,7 +164,6 @@ export class LocalizacionComisariasPagePage implements OnInit {
       var longitud = 0;
       await Geolocation.getCurrentPosition().then((res) => {
         let position = res as GeolocationPosition;
-        console.log("Ya tengo el position actual");
         latitud = position.coords.latitude;
         longitud = position.coords.longitude;
         // Centramos el mapa en la ubicación actual

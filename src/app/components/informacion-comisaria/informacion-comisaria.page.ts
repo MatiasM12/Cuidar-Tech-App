@@ -21,7 +21,6 @@ export class InformacionComisariaComponent  implements OnInit {
       if (comisaria) {
         this.comisaria = comisaria;
       } else {
-        console.log('No se encontraron datos de la comisaría en el Storage.');
       }
     }).catch((error) => {
       console.error('Error al recuperar la comisaría del Storage:', error);

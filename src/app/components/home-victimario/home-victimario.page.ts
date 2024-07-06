@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PruebaDeVida } from 'src/app/models/prueba-de-vida';
-import { LoadingController, Platform, AlertController } from '@ionic/angular';
-import { PruebaDeVidaService } from 'src/app/services/prueba-de-vida.service';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { FotoPruebaDeVidaService } from 'src/app/services/foto-prueba-de-vida.service';
-import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
+import { LoadingController, AlertController } from '@ionic/angular';
 import { Usuario } from 'src/app/models/usuario';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
@@ -24,25 +19,18 @@ export class HomeVictimarioPage implements OnInit {
   hayPruebasDeVida = true;
   fotoSacada: any;
   pruebaSeleccionada: PruebaDeVida;
-  notificationCount: number = 0; 
+  notificationCount: number = 0;
 
   //Back button
   subscribe: any;
 
   constructor(
     public loadingController: LoadingController,
-    private pruebaDeVidaService: PruebaDeVidaService,
-    private camara: Camera,
-    private fotoPruebaDeVidaService: FotoPruebaDeVidaService,
     private router: Router,
     private storage: Storage,
-    private platform: Platform,
-    private backgroundMode: BackgroundMode,
-    private localNotifications: LocalNotifications,
-    private notifactionService:NotificacionService,
+    private notifactionService: NotificacionService,
     private alertController: AlertController
-  )
-  {this.pruebaSeleccionada = new PruebaDeVida();}
+  ) { this.pruebaSeleccionada = new PruebaDeVida(); }
 
   ngOnInit() {
   }
@@ -51,11 +39,12 @@ export class HomeVictimarioPage implements OnInit {
     this.getNotificationCount();
   }
 
-  getNotificationCount(){
+  getNotificationCount() {
     this.storage.get('persona').then(async (email) => {
-      this.notifactionService.getCantidadNoVistas(email).subscribe( res => {
+      this.notifactionService.getCantidadNoVistas(email).subscribe(res => {
         this.notificationCount = res as number
-     });})
+      });
+    })
   }
 
   async showLoader() {
@@ -76,12 +65,10 @@ export class HomeVictimarioPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Cancelar');
           }
         }, {
           text: 'Aceptar',
           handler: () => {
-            console.log('Aceptar');
             // Realizar el cierre de sesión
             localStorage.setItem('emailUsuario', '');
             this.storage.set('usuario', new Usuario());
@@ -94,7 +81,6 @@ export class HomeVictimarioPage implements OnInit {
     await alert.present();
   }
 
-  
   openNotifications() {
     this.router.navigate(['/notificaciones']);
   }

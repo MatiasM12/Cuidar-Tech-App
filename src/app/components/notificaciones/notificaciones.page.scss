@@ -1,28 +1,23 @@
-.icon{
+.icon {
     color: #480971;
 }
+
 .custom-toolbar {
     background-color: #480971;
     color: white;
     height: 60px;
     display: flex;
     align-items: center;
-    flex-direction: row; 
+    flex-direction: row;
 }
-  
-  
-    .custom-button {
-      background-color: #480971;
-      border-radius: 30px;
-      height: 50px;
-    }
 
-.list{
+.custom-button {
+    background-color: #480971;
+    border-radius: 30px;
+    height: 50px;
+}
+
+.list {
     margin-left: 10px;
     margin-right: 10px;
 }
-
-
-  
-  
-  
