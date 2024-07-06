@@ -1,4 +1,6 @@
-# VDGApp 📲
+# Cuidar Tech App 📲
+
+Cuidar Tech es un proyecto dedicado a la prevención de la violencia de género mediante el monitoreo de restricciones perimetrales. Este proyecto se basa en la continuación del proyecto original desarrollado por la Universidad Nacional de General Sarmiento (UNGS), que puedes encontrar [aquí](https://www.ungs.edu.ar/new/cuidar-tech-una-posible-solucion-tecnologica-para-intervenir-en-casos-de-violencia-domestica-contra-las-mujeres). En esta nueva fase, hemos implementado dos funcionalidades clave: pruebas de vida automáticas y predicción de rutinas para prevenir violaciones de restricciones perimetrales. Ademas de que implementamos otras mejores tanto esteticas como funcionales. Este es el repositorio que contiene el frontend del proyecto, podes econtrar el backend [aquí](https://github.com/MatiasM12/Cuidar-Tech-Backend) y el respositorio del frontend [aqui](https://github.com/MatiasM12/Cuidar-Tech-Frontend).
 
 ## Instrucciones para correr el código 👨‍🏫
 
