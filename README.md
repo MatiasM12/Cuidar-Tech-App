@@ -1,6 +1,6 @@
 # Cuidar Tech App 📲
 
-Cuidar Tech es un proyecto dedicado a la prevención de la violencia de género mediante el monitoreo de restricciones perimetrales. Este proyecto se basa en la continuación del proyecto original desarrollado por la Universidad Nacional de General Sarmiento (UNGS), que puedes encontrar [aquí](https://www.ungs.edu.ar/new/cuidar-tech-una-posible-solucion-tecnologica-para-intervenir-en-casos-de-violencia-domestica-contra-las-mujeres). En esta nueva fase, hemos implementado dos funcionalidades clave: pruebas de vida automáticas y predicción de rutinas para prevenir violaciones de restricciones perimetrales. Ademas de que implementamos otras mejores tanto esteticas como funcionales. Este es el repositorio que contiene la app movil del proyecto, podes econtrar el backend [aquí](https://github.com/MatiasM12/Cuidar-Tech-Backend) y el respositorio del frontend [aqui](https://github.com/MatiasM12/Cuidar-Tech-Frontend).
+Cuidar Tech es un proyecto dedicado a la prevención de la violencia de género mediante el monitoreo de restricciones perimetrales. Este proyecto se basa en la continuación del proyecto original desarrollado por la Universidad Nacional de General Sarmiento (UNGS), que puedes encontrar [aquí](https://www.ungs.edu.ar/new/cuidar-tech-una-posible-solucion-tecnologica-para-intervenir-en-casos-de-violencia-domestica-contra-las-mujeres). En esta nueva fase, hemos implementado dos funcionalidades clave: pruebas de vida automáticas y predicción de rutinas para prevenir violaciones de restricciones perimetrales. Ademas de que implementamos otras mejores tanto esteticas como funcionales. Este es el repositorio que contiene la app movil del proyecto, podes encontrar el backend [aquí](https://github.com/MatiasM12/Cuidar-Tech-Backend) y el frontend [aqui](https://github.com/MatiasM12/Cuidar-Tech-Frontend).
 
 ## Funcionalidades de la aplicación ⚙️
 
@@ -13,10 +13,42 @@ Cuidar Tech es un proyecto dedicado a la prevención de la violencia de género 
 - Ver notificaciones enviadas por los administrativos.
 - Botón de pánico que, al presionarlo, envía una alerta a los contactos y a la comisaría más cercana.
 
+![l (7)](https://github.com/MatiasM12/Cuidar-Tech-App/assets/86579814/136b394e-d4c8-4520-9c59-bc0061d68488)
+
 ### Para el victimario:
 
 - Recibir y realizar pruebas de vida, además de poder ver los resultados de las mismas.
 - Ver las notificaciones que le lleguen.
+  
+![l (9)](https://github.com/MatiasM12/Cuidar-Tech-App/assets/86579814/fd95f3a9-fbeb-4519-bb1c-c64c35c8fcd2)
+
+
+<div >
+<h2 >Demo 👨🏻‍💻</h2>
+<table align="left" >
+<tr border="none">
+  <td width="25%" align="center">
+    <p align="left">
+     <a href="https://youtu.be/US0ZI8701D8" title="Go to Source">
+        <img align="left" width=70%  src="https://github.com/MatiasM12/Cuidar-Tech-App/assets/86579814/81c823d3-7ed7-43f6-b227-dcdf07ba5b3e"   alt="VIDEO" /></a>
+      </p>
+    <p align="left">
+        <a href="https://youtu.be/US0ZI8701D8" target="blank"><img align="left" src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white"  /></a>
+      <a href="https://github.com/MatiasM12/Cuidar-Tech-App" target="blank"><img align="left" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="" /></a>
+    </p>       
+  </td> 
+</tr>
+</table>
+</div>
+<br><br>
+
+## Roles de Usuario 👤
+
+Cuidar tech tiene dos roles de usuario principales con interfaces diferentes como se muestra a continuacion:
+
+- **Damnificada**: Este rol representa a las víctimas de la violencia de género.
+  
+- **Victimario**: Este rol representa a los que ejercen la violencia de género.
 
 ## Instrucciones para correr el código 👨‍🏫
 
@@ -188,29 +220,12 @@ Para restablecer una contraseña, sigue uno de estos métodos:
    - Haz clic en "Olvidé mi contraseña".
    - Confirma la solicitud
    - Recibirás una nueva contraseña en el correo electrónico asociado (`pp2proyectoviolenciagenero@gmail.com`). O si estás desarrollando y tienes acceso al backend, puedes recuperar una nueva contraseña por la consola del servidor.
-  
-     ![image-removebg-preview (1)](https://github.com/MatiasM12/VdgApp/assets/86579814/0602e1b6-8e2a-4e4e-9bbb-5126180ea576)
 
 2. **A través de la interfaz de usuario web*: 
    - Visita la página web de VDGApp.
    - Haz clic en "Olvidé mi contraseña".
    - Ingresa tu correo electrónico.
    - Recibirás una nueva contraseña en el correo electrónico asociado (`pp2proyectoviolenciagenero@gmail.com`). O si estás desarrollando y tienes acceso al backend, puedes recuperar una nueva contraseña por la consola del servidor.
-  
-     ![image](https://github.com/Nicolas2k19/PP2Frontend/assets/86579814/91cd1045-7755-425b-82de-fea141545413)
-
-## Roles de Usuario 👤
-
-VDGApp tiene dos roles de usuario principales con interfaces diferentes como se muestra a continuacion:
-
-- **Damnificada**: Este rol representa a las víctimas de la violencia de género.
-
-  ![image-removebg-preview_(5)-fxLW3yXoy-transformed](https://github.com/MatiasM12/VdgApp/assets/86579814/67c379e2-e0ae-4eaa-99fb-774011d6f594)
-  
-
-- **Victimario**: Este rol representa a los agresores.
-
-  ![image-removebg-preview_(6)-bKr94wGb7-transformed](https://github.com/MatiasM12/VdgApp/assets/86579814/5578613e-d9c2-4eb8-a754-d48864c5b77f)
 
 ## Manual de usuario 📕
 
