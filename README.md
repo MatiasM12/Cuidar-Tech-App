@@ -1,6 +1,6 @@
 # Cuidar Tech App 📲
 
-Cuidar Tech es un proyecto dedicado a la prevención de la violencia de género mediante el monitoreo de restricciones perimetrales. Este proyecto se basa en la continuación del proyecto original desarrollado por la Universidad Nacional de General Sarmiento (UNGS), que puedes encontrar [aquí](https://www.ungs.edu.ar/new/cuidar-tech-una-posible-solucion-tecnologica-para-intervenir-en-casos-de-violencia-domestica-contra-las-mujeres). En esta nueva fase, hemos implementado dos funcionalidades clave: pruebas de vida automáticas y predicción de rutinas para prevenir violaciones de restricciones perimetrales. Ademas de que implementamos otras mejores tanto esteticas como funcionales. Este repositorio contiene la app movil del proyecto, podes encontrar el backend [aquí](https://github.com/MatiasM12/Cuidar-Tech-Backend) y el frontend [aqui](https://github.com/MatiasM12/Cuidar-Tech-Frontend).
+Cuidar Tech es un proyecto dedicado a la prevención de la violencia de género mediante el monitoreo de restricciones perimetrales. Este proyecto se basa en la continuación del proyecto original desarrollado por la Universidad Nacional de General Sarmiento (UNGS), que puedes encontrar [aquí](https://www.ungs.edu.ar/new/cuidar-tech-una-posible-solucion-tecnologica-para-intervenir-en-casos-de-violencia-domestica-contra-las-mujeres). En esta nueva fase, hemos implementado dos funcionalidades clave: pruebas de vida automáticas y predicción de rutinas para prevenir violaciones de restricciones perimetrales. Además, implementamos otras mejoras tanto estéticas como funcionales que serán nombradas más adelante. Este repositorio contiene la app movil del proyecto, puedes encontrar el backend [aquí](https://github.com/MatiasM12/Cuidar-Tech-Backend) y el frontend [aqui](https://github.com/MatiasM12/Cuidar-Tech-Frontend).
 
 ## Funcionalidades de la aplicación ⚙️
 
@@ -44,7 +44,7 @@ Cuidar Tech es un proyecto dedicado a la prevención de la violencia de género 
 
 ## Roles de Usuario 👤
 
-Cuidar tech tiene dos roles de usuario principales con interfaces diferentes como se muestra a continuacion:
+Tenemos dos roles de usuario principales con interfaces diferentes como se muestra a continuacion:
 
 - **Damnificada**: Este rol representa a las víctimas de la violencia de género.
   
